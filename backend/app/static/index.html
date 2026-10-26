@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mood Journal</title>
+  <style>
+    :root { color-scheme: light; --ink:#24212b; --muted:#6d6875; --brand:#6750a4; --soft:#f5f1fb; --line:#e4deed; --danger:#b3261e; }
+    * { box-sizing:border-box; } body { margin:0; font-family:Segoe UI,system-ui,sans-serif; color:var(--ink); background:#fcfaff; }
+    header { background:linear-gradient(135deg,#6750a4,#8b6fc0); color:white; padding:28px max(20px,calc((100% - 1120px)/2)); }
+    header h1 { margin:0 0 5px; font-size:clamp(25px,4vw,36px); } header p { margin:0; opacity:.9; }
+    main { max-width:1120px; margin:0 auto; padding:22px 20px 50px; } nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+    nav button, button { border:0; border-radius:12px; padding:11px 16px; font:inherit; cursor:pointer; }
+    nav button { background:var(--soft); color:var(--brand); } nav button.active, button.primary { background:var(--brand); color:white; }
+    .grid { display:grid; grid-template-columns: minmax(0,1.1fr) minmax(280px,.9fr); gap:18px; } .card { background:white; border:1px solid var(--line); border-radius:18px; padding:20px; box-shadow:0 4px 18px #3a24500a; }
+    h2 { margin:0 0 15px; font-size:21px; } h3 { margin:0 0 8px; } label { display:block; font-weight:600; margin:12px 0 6px; }
+    textarea, input, select { width:100%; border:1px solid #cfc6dc; border-radius:10px; padding:12px; font:inherit; background:#fff; } textarea { min-height:160px; resize:vertical; }
+    .moods { display:flex; flex-wrap:wrap; gap:7px; } .moods button { background:#f1edf6; color:var(--ink); padding:8px 11px; } .moods button.selected { background:#e2d5fb; color:#452b79; outline:2px solid #8b6fc0; }
+    .actions { display:flex; gap:9px; flex-wrap:wrap; margin-top:15px; } .secondary { background:#eeeaf2; color:var(--ink); } .danger { background:#fde9e7; color:var(--danger); }
+    .status { min-height:24px; color:var(--muted); margin-top:10px; } .status.error { color:var(--danger); } .analysis { background:var(--soft); border-radius:13px; padding:15px; margin-top:15px; }
+    .entry { border-top:1px solid var(--line); padding:15px 0; } .entry:first-child { border-top:0; } .entry-head { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .pill { display:inline-block; padding:4px 9px; border-radius:999px; background:#eeeaf2; font-size:13px; } .entry p { white-space:pre-wrap; margin:9px 0; }
+    .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; } .metric { background:var(--soft); padding:15px; border-radius:13px; } .metric strong { display:block; font-size:23px; margin-top:5px; }
+    .bar-row { display:grid; grid-template-columns:100px 1fr 35px; align-items:center; gap:8px; margin:8px 0; } .bar { height:11px; background:#eeeaf2; border-radius:8px; overflow:hidden; } .bar i { display:block; height:100%; background:#8062b9; border-radius:8px; }
+    .hidden { display:none !important; } .empty { color:var(--muted); text-align:center; padding:30px 8px; } .privacy { color:var(--muted); font-size:14px; line-height:1.5; }
+    @media (max-width:760px) { .grid { grid-template-columns:1fr; } main { padding:16px 12px 35px; } .card { padding:16px; } }
+  </style>
+</head>
+<body>
+<header><h1>My Mood Journal</h1><p>A private, local-first space to reflect and notice patterns.</p></header>
+<main>
+  <nav>
+    <button class="active" data-tab="journal">New entry</button><button data-tab="history">History</button>
+    <button data-tab="insights">Insights</button><button data-tab="settings">Privacy & settings</button>
+  </nav>
+  <section id="journal" class="tab">
+    <div class="grid"><div class="card">
+      <h2>How are you feeling today?</h2>
+      <div id="moods" class="moods"></div>
+      <label for="note">Short note (optional)</label><input id="note" maxlength="500" placeholder="A word or phrase to remember">
+      <label for="text">Journal entry</label><textarea id="text" maxlength="10000" placeholder="Write honestly. Your text stays on this local backend unless you configure it otherwise."></textarea>
+      <div class="actions"><button id="save" class="primary">Analyze and save</button><button id="clear" class="secondary">Clear</button></div>
+      <div id="journalStatus" class="status"></div>
+    </div><div class="card">
+      <h2>Before you begin</h2><p class="privacy">The AI separates VADER sentiment from emotion classification. Predictions are estimates, not diagnoses, and mixed or contextual feelings can be difficult to classify.</p>
+      <div id="newAnalysis" class="analysis hidden"></div>
+    </div></div>
+  </section>
+  <section id="history" class="tab hidden"><div class="card">
+    <h2>Journal history</h2><div class="grid" style="grid-template-columns:1fr 180px"><input id="search" placeholder="Search your entries"><select id="filter"><option value="">All moods</option></select></div>
+    <div id="entries" style="margin-top:12px"></div>
+  </div></section>
+  <section id="insights" class="tab hidden"><div class="card"><h2>Insights</h2>
+    <div class="actions"><button class="period primary" data-period="weekly">Last 7 days</button><button class="period secondary" data-period="monthly">Last 30 days</button></div>
+    <div id="insightStatus" class="status"></div><div id="metrics" class="metrics"></div><div id="charts"></div>
+    <p class="privacy">These summaries use only records stored for this local user. They are not medical assessments.</p>
+  </div></section>
+  <section id="settings" class="tab hidden"><div class="card"><h2>Privacy and data</h2>
+    <p class="privacy">This local-first version stores journal records in SQLite and sends text to the configured backend for analysis. It does not claim encryption or production authentication. Your local user scope is identified by the X-User-ID header.</p>
+    <div class="actions"><button id="export" class="primary">Download CSV export</button><button id="deleteAll" class="danger">Delete all my data</button></div><div id="settingsStatus" class="status"></div>
+  </div></section>
+</main>
+<script>
+const moods=['happy','sad','stressed','anxious','angry','calm','excited','neutral'];
+const api='/api', state={mood:null, entries:[]};
+const $=id=>document.getElementById(id);
+function status(id,message,error=false){$(id).textContent=message;$(id).className='status'+(error?' error':'');}
+async function request(path,options={}){const response=await fetch(api+path,{...options,headers:{'X-User-ID':'local-user','Content-Type':'application/json',...(options.headers||{})}}); if(!response.ok){let detail='Request failed ('+response.status+')';try{detail=(await response.json()).detail||detail;}catch{} throw Error(detail);} return response;}
+function renderMoods(){ $('moods').innerHTML=moods.map(m=>`<button class="${state.mood===m?'selected':''}" data-mood="${m}">${m[0].toUpperCase()+m.slice(1)}</button>`).join(''); document.querySelectorAll('[data-mood]').forEach(b=>b.onclick=()=>{state.mood=b.dataset.mood;renderMoods();}); $('filter').innerHTML='<option value="">All moods</option>'+moods.map(m=>`<option>${m}</option>`).join('');}
+function analysisHtml(a,mood){return `<strong>AI comparison</strong><br>Selected mood: <b>${mood}</b><br>Sentiment: <b>${a.sentiment}</b> (${Number(a.compound_score).toFixed(3)})<br>Emotion: <b>${a.emotion}</b>${a.confidence==null?'':' · confidence '+Math.round(a.confidence*100)+'%'}<p class="privacy">${a.limitation}</p>`;}
+async function save(){const text=$('text').value.trim();if(!state.mood)return status('journalStatus','Select a mood first.',true);if(!text)return status('journalStatus','Write something before saving.',true);$('save').disabled=true;status('journalStatus','Analyzing and saving...');try{const r=await request('/entries',{method:'POST',body:JSON.stringify({text,mood:state.mood,note:$('note').value.trim(),analyze:true})});const entry=await r.json();$('newAnalysis').innerHTML=analysisHtml(entry.analysis,entry.mood);$('newAnalysis').classList.remove('hidden');$('text').value='';$('note').value='';state.mood=null;renderMoods();status('journalStatus','Saved successfully.');}catch(e){status('journalStatus','Could not save: '+e.message,true);}finally{$('save').disabled=false;}}
+function entryHtml(e){let a='';if(e.analysis){a='<div class="analysis">'+analysisHtml(e.analysis,e.mood);a+=e.correction?'<p><b>Your correction:</b> '+(e.correction.corrected_emotion||'helpful prediction')+'</p>':'<div class="actions"><button class="secondary correct" data-id="'+e.id+'">Correct prediction</button></div>';a+='</div>';}return '<article class="entry"><div class="entry-head"><span class="pill">'+e.mood+'</span><small>'+new Date(e.created_at).toLocaleString()+'</small></div><p>'+escapeHtml(e.text)+'</p>'+(e.note?'<small>'+escapeHtml(e.note)+'</small>':'')+a+'<div class="actions"><button class="secondary edit" data-id="'+e.id+'">Edit</button><button class="danger remove" data-id="'+e.id+'">Delete</button></div></article>';}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function loadEntries(){try{const mood=$('filter').value,search=$('search').value;const r=await request('/entries'+(mood?'?mood='+encodeURIComponent(mood):''));state.entries=(await r.json()).filter(e=>!search||e.text.toLowerCase().includes(search.toLowerCase()));$('entries').innerHTML=state.entries.length?state.entries.map(entryHtml).join(''):'<div class="empty">No entries match your search.</div>';bindEntries();}catch(e){$('entries').innerHTML='<div class="empty">History unavailable: '+escapeHtml(e.message)+'</div>';}}
+function bindEntries(){document.querySelectorAll('.remove').forEach(b=>b.onclick=async()=>{if(confirm('Delete this entry?')){await request('/entries/'+b.dataset.id,{method:'DELETE'});loadEntries();}});document.querySelectorAll('.edit').forEach(b=>b.onclick=async()=>{const e=state.entries.find(x=>x.id==b.dataset.id),text=prompt('Edit journal text:',e.text);if(text&&text.trim()){await request('/entries/'+e.id,{method:'PUT',body:JSON.stringify({text:text.trim(),mood:e.mood,note:e.note,analyze:true})});loadEntries();}});document.querySelectorAll('.correct').forEach(b=>b.onclick=async()=>{const emotion=prompt('Enter the emotion that fits best (for example joy, sadness, anger, fear, neutral):');if(emotion&&emotion.trim()){try{await request('/entries/'+b.dataset.id+'/correction',{method:'POST',body:JSON.stringify({helpful:false,corrected_emotion:emotion.trim().toLowerCase()})});loadEntries();}catch(e){alert(e.message);}}});}
+function chart(title,values){if(!values.length)return '<h3>'+title+'</h3><div class="empty">No data in this period.</div>';const max=Math.max(...values.map(x=>x.count),1);return '<h3>'+title+'</h3>'+values.map(x=>'<div class="bar-row"><span>'+x.label+'</span><div class="bar"><i style="width:'+(x.count/max*100)+'%"></i></div><b>'+x.count+'</b></div>').join('');}
+async function loadInsights(period='weekly'){$('insightStatus').textContent='Loading...';try{const r=await request('/insights/'+period),d=await r.json();$('metrics').innerHTML=`<div class="metric">Entries<strong>${d.entry_count}</strong></div><div class="metric">Top mood<strong>${d.most_frequent_mood||'—'}</strong></div><div class="metric">Agreement<strong>${d.agreement_rate==null?'Not measured':Math.round(d.agreement_rate*100)+'%'}</strong></div><div class="metric">Corrections<strong>${d.correction_count}</strong></div>`;$('charts').innerHTML=chart('Mood distribution',d.mood_distribution)+chart('Sentiment distribution',d.sentiment_distribution)+chart('Emotion distribution',d.emotion_distribution);$('insightStatus').textContent='';}catch(e){$('insightStatus').textContent='Insights unavailable: '+e.message;}}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));$(b.dataset.tab).classList.remove('hidden');if(b.dataset.tab==='history')loadEntries();if(b.dataset.tab==='insights')loadInsights();});
+$('save').onclick=save;$('clear').onclick=()=>{$('text').value='';$('note').value='';state.mood=null;renderMoods();status('journalStatus','');};$('search').oninput=loadEntries;$('filter').onchange=loadEntries;document.querySelectorAll('.period').forEach(b=>b.onclick=()=>{document.querySelectorAll('.period').forEach(x=>x.className='period secondary');b.className='period primary';loadInsights(b.dataset.period);});
+$('export').onclick=async()=>{try{const r=await request('/export');const blob=await r.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mood-journal.csv';a.click();URL.revokeObjectURL(url);status('settingsStatus','CSV downloaded.');}catch(e){status('settingsStatus','Export failed: '+e.message,true);}};
+$('deleteAll').onclick=async()=>{if(confirm('Delete every journal entry and correction for this local user? This cannot be undone.'))try{await request('/data',{method:'DELETE'});status('settingsStatus','All data deleted.');}catch(e){status('settingsStatus','Deletion failed: '+e.message,true);}};
+renderMoods();
+</script>
+</body>
+</html>

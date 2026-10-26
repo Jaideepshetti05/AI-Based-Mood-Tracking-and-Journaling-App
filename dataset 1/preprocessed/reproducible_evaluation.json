@@ -1,0 +1,138 @@
+{
+  "evaluation_type": "single-label primary emotion selected from multi-label ground truth",
+  "samples": 5427,
+  "labels": [
+    "anger",
+    "disgust",
+    "fear",
+    "joy",
+    "sadness",
+    "surprise",
+    "neutral"
+  ],
+  "macro_precision": 0.4526964507209132,
+  "macro_recall": 0.557492900788504,
+  "macro_f1": 0.4413400991484811,
+  "per_label": {
+    "anger": {
+      "precision": 0.43333333333333335,
+      "recall": 0.33484848484848484,
+      "f1": 0.37777777777777777,
+      "support": 660
+    },
+    "disgust": {
+      "precision": 0.14909638554216867,
+      "recall": 0.8839285714285714,
+      "f1": 0.2551546391752577,
+      "support": 112
+    },
+    "fear": {
+      "precision": 0.3763440860215054,
+      "recall": 0.7692307692307693,
+      "f1": 0.5054151624548736,
+      "support": 91
+    },
+    "joy": {
+      "precision": 0.8903614457831325,
+      "recall": 0.3838961038961039,
+      "f1": 0.5364791288566243,
+      "support": 1925
+    },
+    "sadness": {
+      "precision": 0.4813753581661891,
+      "recall": 0.5014925373134328,
+      "f1": 0.49122807017543857,
+      "support": 335
+    },
+    "surprise": {
+      "precision": 0.37925925925925924,
+      "recall": 0.4383561643835616,
+      "f1": 0.40667196187450355,
+      "support": 584
+    },
+    "neutral": {
+      "precision": 0.4591052869408043,
+      "recall": 0.5906976744186047,
+      "f1": 0.516653953724892,
+      "support": 1720
+    }
+  },
+  "confusion_matrix": [
+    [
+      221,
+      179,
+      12,
+      6,
+      33,
+      42,
+      167
+    ],
+    [
+      7,
+      99,
+      2,
+      1,
+      0,
+      0,
+      3
+    ],
+    [
+      2,
+      10,
+      70,
+      2,
+      1,
+      2,
+      4
+    ],
+    [
+      79,
+      91,
+      34,
+      739,
+      66,
+      177,
+      739
+    ],
+    [
+      16,
+      55,
+      13,
+      3,
+      168,
+      23,
+      57
+    ],
+    [
+      23,
+      39,
+      12,
+      11,
+      16,
+      256,
+      227
+    ],
+    [
+      162,
+      191,
+      43,
+      68,
+      65,
+      175,
+      1016
+    ]
+  ],
+  "confusion_matrix_labels": [
+    "anger",
+    "disgust",
+    "fear",
+    "joy",
+    "sadness",
+    "surprise",
+    "neutral"
+  ],
+  "limitations": [
+    "Ground truth can contain multiple emotions; this report selects the highest-scoring true label for a comparable primary-label summary.",
+    "The held-out data is Reddit-derived GoEmotions text and does not establish performance on private journal entries."
+  ]
+}
