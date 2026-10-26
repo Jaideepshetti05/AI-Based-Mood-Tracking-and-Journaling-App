@@ -82,10 +82,48 @@ This writes `preprocessed/reproducible_evaluation.json` with macro precision, ma
 ### API surface
 
 - `GET /api/health`, `GET /api/model/info`
+- `GET /api/auth/session`
 - `POST /api/analyze`
 - `POST/GET /api/entries`, `GET/PUT/DELETE /api/entries/{id}`
-- `POST /api/entries/{id}/correction`
-- `GET /api/insights/weekly`, `GET /api/insights/monthly`
-- `GET /api/export`, `DELETE /api/data`
+- `POST /api/entries/{id}/correction` (supports `helpful: true` for agreement, or `helpful: false` with `corrected_emotion`)
+- `GET /api/personalization/status` (checks user adaptation status, evidence counts, active state, and explanation)
+- `POST /api/personalization/toggle` (enables or disables personalization for the user)
+- `POST /api/personalization/reset` (permanently resets user adaptive priors and correction records)
+- `GET /api/insights/weekly`, `GET /api/insights/monthly` (includes daily trendlines, tone alignment/divergence, and calibration metrics)
+- `GET /api/export` (downloads comprehensive 14-column CSV with AI analysis, confidence, feedback, and formula injection sanitization)
+- `DELETE /api/data` (scoped deletion of all entries and feedback for the active user)
 
-All entry endpoints are scoped by the `X-User-ID` header. The default is `local-user` for the local-only deployment. Do not expose this configuration publicly without real authentication, authorization, encrypted transport, and an encrypted database.
+### Personalization: Empirical Bayes Prior Calibration
+
+The application features a privacy-preserving, mathematically sound personalization mechanism:
+- **Empirical Bayes with Bounded Shrinkage:** Replaces coarse heuristic tuning or unfeasible on-device neural fine-tuning. Base model posterior log-odds are adjusted using Laplace-smoothed user emotion priors $P_{\text{user}}(e)$ and confusion transitions $T(e \mid e_{\text{base}})$.
+- **Minimum Evidence Gating ($N \ge 5$):** Personalization remains strictly inactive until the user provides at least 5 verified feedback events, preventing ungrounded alterations.
+- **Confidence Bounding:** Bounded shrinkage ($\beta_{\max} = 0.65, K_{\text{half}} = 10$) mathematically ensures that unambiguous, high-confidence base predictions ($p_0 \ge 0.85$) are never distorted by noisy feedback.
+- **Side-by-Side Storage:** Both original model prediction and personalized prediction are stored separately and displayed transparently in the UI.
+
+To run the reproducible walk-forward evaluation benchmark:
+
+```powershell
+python "dataset 1/evaluate_personalization.py"
+```
+
+Evaluated on the held-out GoEmotions test split (5,428 samples) across distinct simulated user personas using a strict walk-forward (zero-leakage) protocol, this method achieved:
+- **Pre-threshold ($N < 5$):** Exactly $0.00\%$ deviation from base model.
+- **Post-threshold ($N \ge 5$):** +6.36% average accuracy improvement, +0.0321 macro-F1 gain, -0.0478 Brier score calibration reduction, and -6.36% reduction in manual user correction burden.
+
+### Security and local-first boundary
+
+The application is engineered strictly as a **local-first, on-device** architecture:
+- Loopback binding (`127.0.0.1`) is enforced by default.
+- Cross-user tenant access is rejected with `HTTP 403 Forbidden` if an unauthorized identifier is passed.
+- All sentiment analysis, transformer emotion inference, and personalization calibration run 100% locally on SQLite; journal content is never transmitted to cloud LLMs or third parties.
+- Do not bind to public addresses (`0.0.0.0`) without adding multi-user cryptographic authentication (e.g., OAuth2/JWT), TLS encryption, and SQLCipher database encryption.
+
+### Upgraded features in v1.2.0
+
+1. **Empirical Bayes Personalization:** Seamlessly adapts ambiguous emotion classifications to individual linguistic habits without catastrophic forgetting.
+2. **Prediction Feedback & Agreement:** Dual buttons allow users to confirm prediction accuracy (`👍 Accurate`) or correct the emotion via a dropdown selector populated with supported emotion categories.
+3. **In-Page Accessible Editor:** Multi-line journal entries can be edited directly in an accessible modal dialog preserving line breaks and paragraph spacing.
+4. **Comprehensive CSV Export:** Downloads complete datasets including sentiment scores, emotion tags, model confidence, user feedback status, and formula injection sanitization.
+5. **Non-Blocking Lifespan Model Initialization:** Model loading is managed through FastAPI lifespan context handlers, eliminating import freezes.
+

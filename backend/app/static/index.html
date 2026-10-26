@@ -1,85 +1,1291 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mood Journal</title>
+  <title>Mood Journal — Private AI-Powered Journaling</title>
   <style>
-    :root { color-scheme: light; --ink:#24212b; --muted:#6d6875; --brand:#6750a4; --soft:#f5f1fb; --line:#e4deed; --danger:#b3261e; }
-    * { box-sizing:border-box; } body { margin:0; font-family:Segoe UI,system-ui,sans-serif; color:var(--ink); background:#fcfaff; }
-    header { background:linear-gradient(135deg,#6750a4,#8b6fc0); color:white; padding:28px max(20px,calc((100% - 1120px)/2)); }
-    header h1 { margin:0 0 5px; font-size:clamp(25px,4vw,36px); } header p { margin:0; opacity:.9; }
-    main { max-width:1120px; margin:0 auto; padding:22px 20px 50px; } nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
-    nav button, button { border:0; border-radius:12px; padding:11px 16px; font:inherit; cursor:pointer; }
-    nav button { background:var(--soft); color:var(--brand); } nav button.active, button.primary { background:var(--brand); color:white; }
-    .grid { display:grid; grid-template-columns: minmax(0,1.1fr) minmax(280px,.9fr); gap:18px; } .card { background:white; border:1px solid var(--line); border-radius:18px; padding:20px; box-shadow:0 4px 18px #3a24500a; }
-    h2 { margin:0 0 15px; font-size:21px; } h3 { margin:0 0 8px; } label { display:block; font-weight:600; margin:12px 0 6px; }
-    textarea, input, select { width:100%; border:1px solid #cfc6dc; border-radius:10px; padding:12px; font:inherit; background:#fff; } textarea { min-height:160px; resize:vertical; }
-    .moods { display:flex; flex-wrap:wrap; gap:7px; } .moods button { background:#f1edf6; color:var(--ink); padding:8px 11px; } .moods button.selected { background:#e2d5fb; color:#452b79; outline:2px solid #8b6fc0; }
-    .actions { display:flex; gap:9px; flex-wrap:wrap; margin-top:15px; } .secondary { background:#eeeaf2; color:var(--ink); } .danger { background:#fde9e7; color:var(--danger); }
-    .status { min-height:24px; color:var(--muted); margin-top:10px; } .status.error { color:var(--danger); } .analysis { background:var(--soft); border-radius:13px; padding:15px; margin-top:15px; }
-    .entry { border-top:1px solid var(--line); padding:15px 0; } .entry:first-child { border-top:0; } .entry-head { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
-    .pill { display:inline-block; padding:4px 9px; border-radius:999px; background:#eeeaf2; font-size:13px; } .entry p { white-space:pre-wrap; margin:9px 0; }
-    .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; } .metric { background:var(--soft); padding:15px; border-radius:13px; } .metric strong { display:block; font-size:23px; margin-top:5px; }
-    .bar-row { display:grid; grid-template-columns:100px 1fr 35px; align-items:center; gap:8px; margin:8px 0; } .bar { height:11px; background:#eeeaf2; border-radius:8px; overflow:hidden; } .bar i { display:block; height:100%; background:#8062b9; border-radius:8px; }
-    .hidden { display:none !important; } .empty { color:var(--muted); text-align:center; padding:30px 8px; } .privacy { color:var(--muted); font-size:14px; line-height:1.5; }
-    @media (max-width:760px) { .grid { grid-template-columns:1fr; } main { padding:16px 12px 35px; } .card { padding:16px; } }
+    :root {
+      color-scheme: light;
+      --ink: #1f1b24;
+      --muted: #585361;
+      --brand: #6750a4;
+      --brand-hover: #a88ee9;
+      --soft: #f5f1fb;
+      --soft-alt: #ece6f6;
+      --line: #ded7e8;
+      --danger: #b3261e;
+      --danger-soft: #fde8e7;
+      --success: #1b6d3b;
+      --success-soft: #eaf6ee;
+      --warn: #8c5b00;
+      --warn-soft: #fff6e5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: var(--ink);
+      background: #fbf9fe;
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #6750a4, #876abf);
+      color: white;
+      padding: 26px max(20px, calc((100% - 1120px)/2));
+      box-shadow: 0 2px 10px rgba(103, 80, 164, 0.15);
+    }
+
+    header h1 {
+      margin: 0 0 4px;
+      font-size: clamp(24px, 3.8vw, 34px);
+      font-weight: 700;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.92;
+      font-size: 15px;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 22px 20px 60px;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    nav button,
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 17px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    nav button {
+      background: var(--soft);
+      color: var(--brand);
+      border: 1px solid var(--line);
+    }
+
+    nav button:hover {
+      background: var(--soft-alt);
+    }
+
+    nav button.active,
+    button.primary {
+      background: var(--brand);
+      color: white;
+      border: 1px solid transparent;
+    }
+
+    nav button.active:hover,
+    button.primary:hover {
+      background: var(--brand-hover);
+    }
+
+    nav button:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(290px, 0.85fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 4px 18px rgba(58, 36, 80, 0.05);
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      margin: 14px 0 6px;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      border: 1px solid #c9bfd8;
+      border-radius: 10px;
+      padding: 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      border-color: var(--brand);
+    }
+
+    .moods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .moods button {
+      background: var(--soft);
+      color: var(--ink);
+      padding: 8px 13px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .moods button:hover {
+      background: var(--soft-alt);
+    }
+
+    .moods button.selected {
+      background: #e3d7fa;
+      color: #3b226e;
+      outline: 2px solid var(--brand);
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      align-items: center;
+    }
+
+    .secondary {
+      background: #efeaf4;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .secondary:hover {
+      background: #e5ddece0;
+    }
+
+    .danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid #f9ccc8;
+    }
+
+    .danger:hover {
+      background: #fad8d5;
+    }
+
+    .success-btn {
+      background: var(--success-soft);
+      color: var(--success);
+      border: 1px solid #bce4cc;
+    }
+
+    .success-btn:hover {
+      background: #d7efdf;
+    }
+
+    .status {
+      min-height: 24px;
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .status.error {
+      color: var(--danger);
+      font-weight: 500;
+    }
+
+    .status.success {
+      color: var(--success);
+      font-weight: 500;
+    }
+
+    .analysis {
+      background: var(--soft);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 16px;
+      border: 1px solid var(--line);
+    }
+
+    .analysis-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .badge-positive {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .badge-negative {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .badge-neutral {
+      background: #ebe6f3;
+      color: var(--muted);
+    }
+
+    .badge-fallback {
+      background: var(--warn-soft);
+      color: var(--warn);
+      border: 1px solid #f6deb0;
+    }
+
+    .badge-personalized {
+      background: #ede7f6;
+      color: #512da8;
+      border: 1px solid #d1c4e9;
+    }
+
+    .entry {
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+    }
+
+    .entry:first-child {
+      border-top: 0;
+    }
+
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: #ece5f6;
+      font-size: 13px;
+      font-weight: 600;
+      color: #43297a;
+      text-transform: capitalize;
+    }
+
+    .entry p {
+      white-space: pre-wrap;
+      margin: 10px 0;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .entry-note {
+      color: var(--muted);
+      font-size: 13px;
+      background: #fbf9fe;
+      padding: 6px 10px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 8px;
+      border: 1px solid #ece6f4;
+    }
+
+    .feedback-box {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    .feedback-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .feedback-actions select {
+      width: auto;
+      min-width: 160px;
+      padding: 6px 10px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    .feedback-actions button {
+      padding: 6px 12px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      background: var(--soft);
+      padding: 15px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    .metric span {
+      font-size: 13px;
+      color: var(--muted);
+      display: block;
+      font-weight: 500;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      margin-top: 4px;
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .metric small {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 38px;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .bar {
+      height: 12px;
+      background: #ede7f5;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: #7c5ebd;
+      border-radius: 8px;
+      transition: width 0.3s ease;
+    }
+
+    .daily-bars {
+      display: flex;
+      gap: 6px;
+      align-items: flex-end;
+      height: 80px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+
+    .daily-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 32px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .daily-bar {
+      width: 18px;
+      background: var(--brand);
+      border-radius: 4px 4px 0 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 36px 12px;
+      font-size: 15px;
+    }
+
+    .privacy {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+
+    /* Modal Backdrop & Dialog */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(25, 20, 35, 0.55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal {
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 16px 14px 40px;
+      }
+
+      .card {
+        padding: 16px;
+        border-radius: 14px;
+      }
+
+      .bar-row {
+        grid-template-columns: 85px 1fr 30px;
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
+
 <body>
-<header><h1>My Mood Journal</h1><p>A private, local-first space to reflect and notice patterns.</p></header>
-<main>
-  <nav>
-    <button class="active" data-tab="journal">New entry</button><button data-tab="history">History</button>
-    <button data-tab="insights">Insights</button><button data-tab="settings">Privacy & settings</button>
-  </nav>
-  <section id="journal" class="tab">
-    <div class="grid"><div class="card">
-      <h2>How are you feeling today?</h2>
-      <div id="moods" class="moods"></div>
-      <label for="note">Short note (optional)</label><input id="note" maxlength="500" placeholder="A word or phrase to remember">
-      <label for="text">Journal entry</label><textarea id="text" maxlength="10000" placeholder="Write honestly. Your text stays on this local backend unless you configure it otherwise."></textarea>
-      <div class="actions"><button id="save" class="primary">Analyze and save</button><button id="clear" class="secondary">Clear</button></div>
-      <div id="journalStatus" class="status"></div>
-    </div><div class="card">
-      <h2>Before you begin</h2><p class="privacy">The AI separates VADER sentiment from emotion classification. Predictions are estimates, not diagnoses, and mixed or contextual feelings can be difficult to classify.</p>
-      <div id="newAnalysis" class="analysis hidden"></div>
-    </div></div>
-  </section>
-  <section id="history" class="tab hidden"><div class="card">
-    <h2>Journal history</h2><div class="grid" style="grid-template-columns:1fr 180px"><input id="search" placeholder="Search your entries"><select id="filter"><option value="">All moods</option></select></div>
-    <div id="entries" style="margin-top:12px"></div>
-  </div></section>
-  <section id="insights" class="tab hidden"><div class="card"><h2>Insights</h2>
-    <div class="actions"><button class="period primary" data-period="weekly">Last 7 days</button><button class="period secondary" data-period="monthly">Last 30 days</button></div>
-    <div id="insightStatus" class="status"></div><div id="metrics" class="metrics"></div><div id="charts"></div>
-    <p class="privacy">These summaries use only records stored for this local user. They are not medical assessments.</p>
-  </div></section>
-  <section id="settings" class="tab hidden"><div class="card"><h2>Privacy and data</h2>
-    <p class="privacy">This local-first version stores journal records in SQLite and sends text to the configured backend for analysis. It does not claim encryption or production authentication. Your local user scope is identified by the X-User-ID header.</p>
-    <div class="actions"><button id="export" class="primary">Download CSV export</button><button id="deleteAll" class="danger">Delete all my data</button></div><div id="settingsStatus" class="status"></div>
-  </div></section>
-</main>
-<script>
-const moods=['happy','sad','stressed','anxious','angry','calm','excited','neutral'];
-const api='/api', state={mood:null, entries:[]};
-const $=id=>document.getElementById(id);
-function status(id,message,error=false){$(id).textContent=message;$(id).className='status'+(error?' error':'');}
-async function request(path,options={}){const response=await fetch(api+path,{...options,headers:{'X-User-ID':'local-user','Content-Type':'application/json',...(options.headers||{})}}); if(!response.ok){let detail='Request failed ('+response.status+')';try{detail=(await response.json()).detail||detail;}catch{} throw Error(detail);} return response;}
-function renderMoods(){ $('moods').innerHTML=moods.map(m=>`<button class="${state.mood===m?'selected':''}" data-mood="${m}">${m[0].toUpperCase()+m.slice(1)}</button>`).join(''); document.querySelectorAll('[data-mood]').forEach(b=>b.onclick=()=>{state.mood=b.dataset.mood;renderMoods();}); $('filter').innerHTML='<option value="">All moods</option>'+moods.map(m=>`<option>${m}</option>`).join('');}
-function analysisHtml(a,mood){return `<strong>AI comparison</strong><br>Selected mood: <b>${mood}</b><br>Sentiment: <b>${a.sentiment}</b> (${Number(a.compound_score).toFixed(3)})<br>Emotion: <b>${a.emotion}</b>${a.confidence==null?'':' · confidence '+Math.round(a.confidence*100)+'%'}<p class="privacy">${a.limitation}</p>`;}
-async function save(){const text=$('text').value.trim();if(!state.mood)return status('journalStatus','Select a mood first.',true);if(!text)return status('journalStatus','Write something before saving.',true);$('save').disabled=true;status('journalStatus','Analyzing and saving...');try{const r=await request('/entries',{method:'POST',body:JSON.stringify({text,mood:state.mood,note:$('note').value.trim(),analyze:true})});const entry=await r.json();$('newAnalysis').innerHTML=analysisHtml(entry.analysis,entry.mood);$('newAnalysis').classList.remove('hidden');$('text').value='';$('note').value='';state.mood=null;renderMoods();status('journalStatus','Saved successfully.');}catch(e){status('journalStatus','Could not save: '+e.message,true);}finally{$('save').disabled=false;}}
-function entryHtml(e){let a='';if(e.analysis){a='<div class="analysis">'+analysisHtml(e.analysis,e.mood);a+=e.correction?'<p><b>Your correction:</b> '+(e.correction.corrected_emotion||'helpful prediction')+'</p>':'<div class="actions"><button class="secondary correct" data-id="'+e.id+'">Correct prediction</button></div>';a+='</div>';}return '<article class="entry"><div class="entry-head"><span class="pill">'+e.mood+'</span><small>'+new Date(e.created_at).toLocaleString()+'</small></div><p>'+escapeHtml(e.text)+'</p>'+(e.note?'<small>'+escapeHtml(e.note)+'</small>':'')+a+'<div class="actions"><button class="secondary edit" data-id="'+e.id+'">Edit</button><button class="danger remove" data-id="'+e.id+'">Delete</button></div></article>';}
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-async function loadEntries(){try{const mood=$('filter').value,search=$('search').value;const r=await request('/entries'+(mood?'?mood='+encodeURIComponent(mood):''));state.entries=(await r.json()).filter(e=>!search||e.text.toLowerCase().includes(search.toLowerCase()));$('entries').innerHTML=state.entries.length?state.entries.map(entryHtml).join(''):'<div class="empty">No entries match your search.</div>';bindEntries();}catch(e){$('entries').innerHTML='<div class="empty">History unavailable: '+escapeHtml(e.message)+'</div>';}}
-function bindEntries(){document.querySelectorAll('.remove').forEach(b=>b.onclick=async()=>{if(confirm('Delete this entry?')){await request('/entries/'+b.dataset.id,{method:'DELETE'});loadEntries();}});document.querySelectorAll('.edit').forEach(b=>b.onclick=async()=>{const e=state.entries.find(x=>x.id==b.dataset.id),text=prompt('Edit journal text:',e.text);if(text&&text.trim()){await request('/entries/'+e.id,{method:'PUT',body:JSON.stringify({text:text.trim(),mood:e.mood,note:e.note,analyze:true})});loadEntries();}});document.querySelectorAll('.correct').forEach(b=>b.onclick=async()=>{const emotion=prompt('Enter the emotion that fits best (for example joy, sadness, anger, fear, neutral):');if(emotion&&emotion.trim()){try{await request('/entries/'+b.dataset.id+'/correction',{method:'POST',body:JSON.stringify({helpful:false,corrected_emotion:emotion.trim().toLowerCase()})});loadEntries();}catch(e){alert(e.message);}}});}
-function chart(title,values){if(!values.length)return '<h3>'+title+'</h3><div class="empty">No data in this period.</div>';const max=Math.max(...values.map(x=>x.count),1);return '<h3>'+title+'</h3>'+values.map(x=>'<div class="bar-row"><span>'+x.label+'</span><div class="bar"><i style="width:'+(x.count/max*100)+'%"></i></div><b>'+x.count+'</b></div>').join('');}
-async function loadInsights(period='weekly'){$('insightStatus').textContent='Loading...';try{const r=await request('/insights/'+period),d=await r.json();$('metrics').innerHTML=`<div class="metric">Entries<strong>${d.entry_count}</strong></div><div class="metric">Top mood<strong>${d.most_frequent_mood||'—'}</strong></div><div class="metric">Agreement<strong>${d.agreement_rate==null?'Not measured':Math.round(d.agreement_rate*100)+'%'}</strong></div><div class="metric">Corrections<strong>${d.correction_count}</strong></div>`;$('charts').innerHTML=chart('Mood distribution',d.mood_distribution)+chart('Sentiment distribution',d.sentiment_distribution)+chart('Emotion distribution',d.emotion_distribution);$('insightStatus').textContent='';}catch(e){$('insightStatus').textContent='Insights unavailable: '+e.message;}}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));$(b.dataset.tab).classList.remove('hidden');if(b.dataset.tab==='history')loadEntries();if(b.dataset.tab==='insights')loadInsights();});
-$('save').onclick=save;$('clear').onclick=()=>{$('text').value='';$('note').value='';state.mood=null;renderMoods();status('journalStatus','');};$('search').oninput=loadEntries;$('filter').onchange=loadEntries;document.querySelectorAll('.period').forEach(b=>b.onclick=()=>{document.querySelectorAll('.period').forEach(x=>x.className='period secondary');b.className='period primary';loadInsights(b.dataset.period);});
-$('export').onclick=async()=>{try{const r=await request('/export');const blob=await r.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mood-journal.csv';a.click();URL.revokeObjectURL(url);status('settingsStatus','CSV downloaded.');}catch(e){status('settingsStatus','Export failed: '+e.message,true);}};
-$('deleteAll').onclick=async()=>{if(confirm('Delete every journal entry and correction for this local user? This cannot be undone.'))try{await request('/data',{method:'DELETE'});status('settingsStatus','All data deleted.');}catch(e){status('settingsStatus','Deletion failed: '+e.message,true);}};
-renderMoods();
-</script>
+  <header>
+    <h1>My Mood Journal</h1>
+    <p>A private, local-first space to reflect, track emotions, and notice patterns.</p>
+  </header>
+  <main>
+    <nav aria-label="Main Navigation">
+      <button class="active" data-tab="journal">New entry</button>
+      <button data-tab="history">History</button>
+      <button data-tab="insights">Insights</button>
+      <button data-tab="settings">Privacy & data</button>
+    </nav>
+
+    <!-- TAB: NEW ENTRY -->
+    <section id="journal" class="tab">
+      <div class="grid">
+        <div class="card">
+          <h2>How are you feeling today?</h2>
+          <div id="moods" class="moods" role="radiogroup" aria-label="Select mood"></div>
+
+          <label for="note">Short note (optional)</label>
+          <input id="note" maxlength="500" placeholder="e.g. Work deadline, dinner with friends, relaxing morning">
+
+          <label for="text">Journal entry</label>
+          <textarea id="text" maxlength="10000"
+            placeholder="Write openly. Your thoughts stay entirely on this local laptop."></textarea>
+
+          <div class="actions">
+            <button id="save" class="primary">Analyze and save</button>
+            <button id="clear" class="secondary">Clear</button>
+          </div>
+          <div id="journalStatus" class="status" role="status"></div>
+        </div>
+
+        <div class="card">
+          <h2>About AI Analysis</h2>
+          <p class="privacy">
+            <strong>Privacy Guaranteed:</strong> Sentiment & emotion analysis runs 100% on this local device. Your
+            journal is never uploaded to cloud servers.
+          </p>
+          <p class="privacy">
+            <strong>Automated Estimates:</strong> Predictions provide linguistic reflection and are not psychiatric
+            assessments. Mixed emotions or slang can alter predictions.
+          </p>
+          <div id="newAnalysis" class="analysis hidden" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: HISTORY -->
+    <section id="history" class="tab hidden">
+      <div class="card">
+        <h2>Journal History</h2>
+        <div class="grid" style="grid-template-columns: 1fr 180px; margin-bottom: 8px;">
+          <input id="search" placeholder="Search entry text..." aria-label="Search entries">
+          <select id="filter" aria-label="Filter by mood">
+            <option value="">All moods</option>
+          </select>
+        </div>
+        <div id="entriesStatus" class="status"></div>
+        <div id="entries" style="margin-top: 14px;"></div>
+      </div>
+    </section>
+
+    <!-- TAB: INSIGHTS -->
+    <section id="insights" class="tab hidden">
+      <div class="card">
+        <h2>Emotional Reflection & Patterns</h2>
+        <div class="actions" style="margin-bottom: 16px;">
+          <button class="period primary" data-period="weekly">Last 7 days</button>
+          <button class="period secondary" data-period="monthly">Last 30 days</button>
+        </div>
+        <div id="insightStatus" class="status" role="status"></div>
+
+        <div id="metrics" class="metrics"></div>
+
+        <div id="dailyTrendSection" class="hidden">
+          <h3>Daily Entry Activity</h3>
+          <div id="dailyBars" class="daily-bars"></div>
+        </div>
+
+        <div id="charts"></div>
+        <div id="personalizationCard" class="analysis hidden" style="margin-top: 20px;"></div>
+
+        <p class="privacy">These summaries use records stored only for your local profile. They provide reflective
+          insights, not clinical evaluations.</p>
+      </div>
+    </section>
+
+    <!-- TAB: SETTINGS & PRIVACY -->
+    <section id="settings" class="tab hidden">
+      <div class="card">
+        <h2>Privacy & Local Data Management</h2>
+        <p class="privacy">
+          This application operates under a strict <strong>local-first architecture</strong>. Data is stored in your
+          local SQLite database (`mood_journal.db`) and processed directly by your laptop's Python runtime.
+        </p>
+        <ul>
+          <li><strong>No Cloud Tracking:</strong> No external analytics, telemetry, or remote LLM APIs.</li>
+          <li><strong>Complete Portability:</strong> Export all entries, sentiment scores, emotion classifications, and
+            corrections as CSV.</li>
+          <li><strong>Right to Deletion:</strong> Permanently wipe all stored journal entries in a single action.</li>
+        </ul>
+        <div class="actions">
+          <button id="export" class="primary">Download Complete CSV Export</button>
+          <button id="deleteAll" class="danger">Delete All My Data</button>
+        </div>
+        <div id="settingsStatus" class="status" role="status"></div>
+      </div>
+
+      <div class="card" style="margin-top: 20px;">
+        <h2>Personalization & Adaptation Controls</h2>
+        <p class="privacy">
+          The emotion classifier incorporates <strong>Empirical Bayes Prior Adjustment with Bounded Shrinkage</strong>.
+          It uses your confirmed and corrected emotions to calibrate predictions to your personal emotional vocabulary.
+        </p>
+        <div style="background: var(--soft); border-radius: 12px; padding: 14px; margin: 14px 0; border: 1px solid var(--line);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <strong>Adaptive Calibration:</strong>
+              <div id="personalizationStatusText" style="font-size: 13px; color: var(--muted); margin-top: 2px;">Loading personalization status...</div>
+            </div>
+            <button id="togglePersonalizationBtn" class="secondary" style="min-width: 140px;">Toggle</button>
+          </div>
+          <div id="personalizationEvidenceDetail" style="font-size: 13px; color: var(--muted); margin-top: 10px;"></div>
+        </div>
+        <div class="actions">
+          <button id="resetPersonalizationBtn" class="secondary" style="color: var(--danger); border-color: #f9ccc8;">Reset Personalization Data</button>
+        </div>
+        <div id="personalizationActionStatus" class="status" role="status"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ACCESSIBLE IN-PAGE EDIT MODAL (REPLACES BROWSER PROMPT) -->
+  <div id="editModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <div class="modal">
+      <h2 id="editModalTitle">Edit Journal Entry</h2>
+      <div id="editMoods" class="moods" role="radiogroup" aria-label="Select mood for entry"></div>
+
+      <label for="editNote">Short note (optional)</label>
+      <input id="editNote" maxlength="500">
+
+      <label for="editText">Journal text</label>
+      <textarea id="editText" maxlength="10000" rows="8"></textarea>
+
+      <div id="editStatus" class="status" role="status"></div>
+
+      <div class="actions">
+        <button id="saveEdit" class="primary">Save Changes</button>
+        <button id="cancelEdit" class="secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const moods = ['happy', 'sad', 'stressed', 'anxious', 'angry', 'calm', 'excited', 'neutral'];
+    const supportedEmotions = [
+      'joy', 'sadness', 'anger', 'fear', 'surprise', 'disgust', 'neutral',
+      'admiration', 'amusement', 'annoyance', 'approval', 'caring', 'confusion',
+      'curiosity', 'desire', 'disappointment', 'disapproval', 'embarrassment',
+      'excitement', 'gratitude', 'grief', 'love', 'nervousness', 'optimism',
+      'pride', 'realization', 'relief', 'remorse'
+    ];
+
+    const api = '/api';
+    const state = {
+      mood: null,
+      entries: [],
+      activeEditId: null,
+      editMood: null,
+      activeCorrectionId: null
+    };
+
+    const $ = id => document.getElementById(id);
+
+    function status(id, message, type = 'info') {
+      const el = $(id);
+      if (!el) return;
+      el.textContent = message;
+      el.className = 'status ' + (type === 'error' ? 'error' : type === 'success' ? 'success' : '');
+    }
+
+    async function request(path, options = {}) {
+      const headers = {
+        'X-User-ID': 'local-user',
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      };
+      const response = await fetch(api + path, { ...options, headers });
+      if (!response.ok) {
+        let detail = `Request failed (${response.status})`;
+        try {
+          const errJson = await response.json();
+          detail = errJson.detail || detail;
+        } catch { }
+        throw new Error(detail);
+      }
+      return response;
+    }
+
+    function escapeHtml(s) {
+      if (!s) return '';
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function renderMoodSelectors() {
+      $('moods').innerHTML = moods.map(m => `
+    <button type="button" class="${state.mood === m ? 'selected' : ''}" data-mood="${m}" role="radio" aria-checked="${state.mood === m}">
+      ${m[0].toUpperCase() + m.slice(1)}
+    </button>
+  `).join('');
+
+      $('moods').querySelectorAll('button').forEach(b => {
+        b.onclick = () => {
+          state.mood = b.dataset.mood;
+          renderMoodSelectors();
+        };
+      });
+
+      $('filter').innerHTML = '<option value="">All moods</option>' + moods.map(m => `<option value="${m}">${m[0].toUpperCase() + m.slice(1)}</option>`).join('');
+    }
+
+    function renderEditMoodSelectors() {
+      $('editMoods').innerHTML = moods.map(m => `
+    <button type="button" class="${state.editMood === m ? 'selected' : ''}" data-edit-mood="${m}" role="radio" aria-checked="${state.editMood === m}">
+      ${m[0].toUpperCase() + m.slice(1)}
+    </button>
+  `).join('');
+
+      $('editMoods').querySelectorAll('button').forEach(b => {
+        b.onclick = () => {
+          state.editMood = b.dataset.editMood;
+          renderEditMoodSelectors();
+        };
+      });
+    }
+
+    function analysisHtml(a, mood) {
+      if (!a) return '';
+      const compound = Number(a.compound_score || 0).toFixed(3);
+      const confText = a.confidence != null ? ` · Confidence: ${Math.round(a.confidence * 100)}%` : '';
+      const badgeClass = a.sentiment === 'positive' ? 'badge-positive' : a.sentiment === 'negative' ? 'badge-negative' : 'badge-neutral';
+
+      let secondaryHtml = '';
+      if (a.secondary_emotion) {
+        const secConf = a.secondary_confidence != null ? ` (${Math.round(a.secondary_confidence * 100)}%)` : '';
+        secondaryHtml = `<br><small style="color:var(--muted)">Secondary nuance: <b>${escapeHtml(a.secondary_emotion)}</b>${secConf}</small>`;
+      }
+
+      let fallbackBadge = a.is_fallback ? '<span class="badge badge-fallback">Heuristic Mode</span> ' : '';
+      let ambiguityHtml = a.ambiguity_note ? `<p style="margin:6px 0; font-size:12px; color:var(--warn); background:var(--warn-soft); padding:5px 8px; border-radius:6px;">⚠️ ${escapeHtml(a.ambiguity_note)}</p>` : '';
+
+      let persBadge = a.personalization_applied ? ' <span class="badge badge-personalized">Personalized</span>' : '';
+      let compHtml = '';
+      if (a.personalization_applied && a.original_emotion && a.original_emotion !== a.emotion) {
+        compHtml = `<div style="font-size:12px; color:var(--muted); margin-top:3px;">Base model: <s>${escapeHtml(a.original_emotion)}</s> (${Math.round((a.original_confidence||0)*100)}%) ➔ Personalized: <b>${escapeHtml(a.emotion)}</b> (${Math.round((a.confidence||0)*100)}%)</div>`;
+      }
+
+      let persExplanationHtml = '';
+      if (a.personalization_explanation) {
+        persExplanationHtml = `<p style="margin:6px 0; font-size:12px; color:${a.personalization_applied ? '#4a287a' : 'var(--muted)'}; background:${a.personalization_applied ? '#ede7f6' : '#f4f4f4'}; padding:5px 8px; border-radius:6px;">ℹ️ ${escapeHtml(a.personalization_explanation)}</p>`;
+      }
+
+      return `
+    <div class="analysis-header">
+      <span><strong>AI Reflection</strong> (Automated Estimate)${persBadge}</span>
+      <span>${fallbackBadge}<span class="badge ${badgeClass}">${escapeHtml(a.sentiment)}</span></span>
+    </div>
+    <div>Self-reported mood: <b>${escapeHtml(mood)}</b></div>
+    <div>Polarity Score: <b>${compound}</b> (continuous range: -1 to +1)</div>
+    <div>Primary Emotion: <b>${escapeHtml(a.emotion)}</b>${confText}${secondaryHtml}</div>
+    ${compHtml}
+    ${ambiguityHtml}
+    ${persExplanationHtml}
+    <p class="privacy" style="margin-top:8px; font-size:12px;">${escapeHtml(a.limitation || '')}</p>
+  `;
+    }
+
+    async function saveEntry() {
+      const text = $('text').value.trim();
+      if (!state.mood) return status('journalStatus', 'Please select how you are feeling first.', 'error');
+      if (!text) return status('journalStatus', 'Please write a journal entry before saving.', 'error');
+
+      $('save').disabled = true;
+      status('journalStatus', 'Analyzing and saving locally...');
+
+      try {
+        const res = await request('/entries', {
+          method: 'POST',
+          body: JSON.stringify({
+            text,
+            mood: state.mood,
+            note: $('note').value.trim(),
+            analyze: true
+          })
+        });
+        const entry = await res.json();
+        $('newAnalysis').innerHTML = analysisHtml(entry.analysis, entry.mood);
+        $('newAnalysis').classList.remove('hidden');
+        $('text').value = '';
+        $('note').value = '';
+        state.mood = null;
+        renderMoodSelectors();
+        status('journalStatus', 'Entry saved and analyzed successfully.', 'success');
+      } catch (err) {
+        status('journalStatus', `Could not save entry: ${err.message}`, 'error');
+      } finally {
+        $('save').disabled = false;
+      }
+    }
+
+    function entryHtml(e) {
+      let analysisSection = '';
+      if (e.analysis) {
+        let feedbackContent = '';
+        if (e.correction) {
+          if (e.correction.helpful) {
+            feedbackContent = `
+          <div class="feedback-box" style="border-left: 3px solid var(--success);">
+            <span style="color:var(--success); font-weight:600;">✓ You confirmed this prediction was accurate</span>
+            <button type="button" class="secondary" style="margin-left:8px; padding:3px 8px; font-size:11px;" onclick="showCorrectionSelector(${e.id})">Change</button>
+          </div>`;
+          } else {
+            feedbackContent = `
+          <div class="feedback-box" style="border-left: 3px solid var(--brand);">
+            <span>You corrected emotion to: <b>${escapeHtml(e.correction.corrected_emotion)}</b></span>
+            <button type="button" class="secondary" style="margin-left:8px; padding:3px 8px; font-size:11px;" onclick="showCorrectionSelector(${e.id})">Edit</button>
+          </div>`;
+          }
+        } else {
+          feedbackContent = `
+        <div id="feedback-${e.id}" class="feedback-box">
+          <span style="font-weight:500;">Was this emotion prediction accurate?</span>
+          <div class="feedback-actions">
+            <button type="button" class="success-btn" onclick="submitFeedback(${e.id}, true)">👍 Accurate</button>
+            <button type="button" class="secondary" onclick="showCorrectionSelector(${e.id})">✏️ Incorrect / Change</button>
+          </div>
+          <div id="correctionForm-${e.id}" class="feedback-actions hidden" style="margin-top:8px;">
+            <select id="emotionSelect-${e.id}">
+              ${supportedEmotions.map(emo => `<option value="${emo}">${emo[0].toUpperCase() + emo.slice(1)}</option>`).join('')}
+            </select>
+            <button type="button" class="primary" onclick="submitCorrection(${e.id})">Save Emotion</button>
+            <button type="button" class="secondary" onclick="hideCorrectionSelector(${e.id})">Cancel</button>
+          </div>
+        </div>`;
+        }
+
+        analysisSection = `
+      <div class="analysis">
+        ${analysisHtml(e.analysis, e.mood)}
+        ${feedbackContent}
+      </div>`;
+      }
+
+      const createdDate = new Date(e.created_at).toLocaleString();
+      const noteHtml = e.note ? `<div class="entry-note">Note: ${escapeHtml(e.note)}</div>` : '';
+
+      return `
+    <article class="entry" id="entry-${e.id}">
+      <div class="entry-head">
+        <span class="pill">${escapeHtml(e.mood)}</span>
+        <small style="color:var(--muted)">${createdDate}</small>
+      </div>
+      <p>${escapeHtml(e.text)}</p>
+      ${noteHtml}
+      ${analysisSection}
+      <div class="actions">
+        <button type="button" class="secondary" onclick="openEditModal(${e.id})">Edit</button>
+        <button type="button" class="danger" onclick="deleteEntry(${e.id})">Delete</button>
+      </div>
+    </article>`;
+    }
+
+    async function loadEntries() {
+      try {
+        status('entriesStatus', 'Loading journal records...');
+        const mood = $('filter').value;
+        const search = $('search').value.toLowerCase().trim();
+        const query = mood ? `?mood=${encodeURIComponent(mood)}` : '';
+        const res = await request(`/entries${query}`);
+        const data = await res.json();
+
+        state.entries = search ? data.filter(e => e.text.toLowerCase().includes(search) || (e.note && e.note.toLowerCase().includes(search))) : data;
+
+        $('entries').innerHTML = state.entries.length
+          ? state.entries.map(entryHtml).join('')
+          : '<div class="empty">No journal entries found matching your criteria.</div>';
+        status('entriesStatus', '');
+      } catch (err) {
+        $('entries').innerHTML = `<div class="empty">Unable to load journal history: ${escapeHtml(err.message)}</div>`;
+        status('entriesStatus', `Error: ${err.message}`, 'error');
+      }
+    }
+
+    // FEEDBACK & CORRECTION WORKFLOWS
+    window.submitFeedback = async function (entryId, isHelpful) {
+      try {
+        const res = await request(`/entries/${entryId}/correction`, {
+          method: 'POST',
+          body: JSON.stringify({
+            helpful: isHelpful,
+            corrected_emotion: null
+          })
+        });
+        await res.json();
+        await loadEntries();
+      } catch (err) {
+        alert(`Could not save feedback: ${err.message}`);
+      }
+    };
+
+    window.showCorrectionSelector = function (entryId) {
+      const form = $(`correctionForm-${entryId}`);
+      if (form) form.classList.remove('hidden');
+    };
+
+    window.hideCorrectionSelector = function (entryId) {
+      const form = $(`correctionForm-${entryId}`);
+      if (form) form.classList.add('hidden');
+    };
+
+    window.submitCorrection = async function (entryId) {
+      const select = $(`emotionSelect-${entryId}`);
+      const emotion = select ? select.value : '';
+      if (!emotion) return;
+
+      try {
+        const res = await request(`/entries/${entryId}/correction`, {
+          method: 'POST',
+          body: JSON.stringify({
+            helpful: false,
+            corrected_emotion: emotion
+          })
+        });
+        await res.json();
+        await loadEntries();
+      } catch (err) {
+        alert(`Could not save correction: ${err.message}`);
+      }
+    };
+
+    // EDIT MODAL WORKFLOW (REPLACES BROWSER PROMPT)
+    window.openEditModal = function (entryId) {
+      const entry = state.entries.find(e => e.id === entryId);
+      if (!entry) return;
+
+      state.activeEditId = entry.id;
+      state.editMood = entry.mood;
+      $('editText').value = entry.text;
+      $('editNote').value = entry.note || '';
+      status('editStatus', '');
+
+      renderEditMoodSelectors();
+      $('editModal').classList.remove('hidden');
+      $('editText').focus();
+    };
+
+    window.closeEditModal = function () {
+      $('editModal').classList.add('hidden');
+      state.activeEditId = null;
+      state.editMood = null;
+    };
+
+    $('cancelEdit').onclick = window.closeEditModal;
+
+    $('saveEdit').onclick = async function () {
+      if (!state.activeEditId) return;
+      const text = $('editText').value.trim();
+      if (!text) return status('editStatus', 'Journal text cannot be blank.', 'error');
+      if (!state.editMood) return status('editStatus', 'Please select a mood.', 'error');
+
+      $('saveEdit').disabled = true;
+      status('editStatus', 'Saving updates and re-analyzing...');
+
+      try {
+        await request(`/entries/${state.activeEditId}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            text,
+            mood: state.editMood,
+            note: $('editNote').value.trim(),
+            analyze: true
+          })
+        });
+        window.closeEditModal();
+        await loadEntries();
+      } catch (err) {
+        status('editStatus', `Update failed: ${err.message}`, 'error');
+      } finally {
+        $('saveEdit').disabled = false;
+      }
+    };
+
+    window.deleteEntry = async function (entryId) {
+      if (confirm('Permanently delete this journal entry?')) {
+        try {
+          await request(`/entries/${entryId}`, { method: 'DELETE' });
+          await loadEntries();
+        } catch (err) {
+          alert(`Delete failed: ${err.message}`);
+        }
+      }
+    };
+
+    // INSIGHTS & ANALYTICS
+    function renderBarChart(title, values) {
+      if (!values || !values.length) {
+        return `<h3>${escapeHtml(title)}</h3><div class="empty" style="padding:16px">No data for this time window.</div>`;
+      }
+      const max = Math.max(...values.map(x => x.count), 1);
+      return `
+    <h3>${escapeHtml(title)}</h3>
+    ${values.map(x => `
+      <div class="bar-row">
+        <span>${escapeHtml(x.label)}</span>
+        <div class="bar"><i style="width:${Math.round((x.count / max) * 100)}%"></i></div>
+        <b>${x.count}</b>
+      </div>
+    `).join('')}
+  `;
+    }
+
+    async function loadInsights(period = 'weekly') {
+      status('insightStatus', 'Aggregating insights from local database...');
+      try {
+        const res = await request(`/insights/${period}`);
+        const d = await res.json();
+
+        const agreementDisplay = d.agreement_rate != null
+          ? `${Math.round(d.agreement_rate * 100)}%`
+          : 'Not reviewed';
+
+        $('metrics').innerHTML = `
+      <div class="metric">
+        <span>Entries Logged</span>
+        <strong>${d.entry_count}</strong>
+        <small>${period === 'weekly' ? 'Past 7 days' : 'Past 30 days'}</small>
+      </div>
+      <div class="metric">
+        <span>Top Mood</span>
+        <strong style="text-transform:capitalize">${escapeHtml(d.most_frequent_mood || '—')}</strong>
+        <small>Self-reported</small>
+      </div>
+      <div class="metric">
+        <span>Top Emotion</span>
+        <strong style="text-transform:capitalize">${escapeHtml(d.most_frequent_emotion || '—')}</strong>
+        <small>AI Classification</small>
+      </div>
+      <div class="metric">
+        <span>Model Agreement</span>
+        <strong>${agreementDisplay}</strong>
+        <small>${d.agreement_count} accurate of ${d.correction_count} reviewed</small>
+      </div>
+      <div class="metric">
+        <span>Tone Alignment</span>
+        <strong>${d.alignment_count} / ${d.entry_count}</strong>
+        <small>${d.divergence_count} divergent tones</small>
+      </div>
+    `;
+
+        // Daily Trend
+        if (d.daily_trend && d.daily_trend.length > 0) {
+          $('dailyTrendSection').classList.remove('hidden');
+          const maxDay = Math.max(...d.daily_trend.map(x => x.count), 1);
+          $('dailyBars').innerHTML = d.daily_trend.map(x => `
+        <div class="daily-col" title="${x.date}: ${x.count} entries (Top: ${x.top_mood || 'none'})">
+          <div class="daily-bar" style="height:${Math.max(12, Math.round((x.count / maxDay) * 55))}px"></div>
+          <span>${x.date.slice(5)}</span>
+        </div>
+      `).join('');
+        } else {
+          $('dailyTrendSection').classList.add('hidden');
+        }
+
+        // Charts
+        $('charts').innerHTML = `
+      ${renderBarChart('Self-Reported Moods', d.mood_distribution)}
+      ${renderBarChart('Sentiment Polarity', d.sentiment_distribution)}
+      ${renderBarChart('Detected Emotions', d.emotion_distribution)}
+    `;
+
+        // Personalization & Calibration Card
+        if (d.personalization) {
+          const p = d.personalization;
+          const statusBadge = p.active ? 'badge-positive' : (p.enabled ? 'badge-neutral' : 'badge-negative');
+          const statusText = p.active ? 'Active & Calibrated' : (p.enabled ? `Building Evidence (${p.feedback_count || 0}/${p.threshold || 5})` : 'Disabled');
+          const divInfo = p.original_vs_personalized_divergences != null ? ` | Personalized adjustments: <b>${p.original_vs_personalized_divergences}</b>` : '';
+          $('personalizationCard').innerHTML = `
+        <div class="analysis-header">
+          <strong>${escapeHtml(p.method)}</strong>
+          <span class="badge ${statusBadge}">${escapeHtml(statusText)}</span>
+        </div>
+        <p style="margin:6px 0; font-size:13px;">
+          Reviewed: <b>${p.reviewed_predictions}</b> | Accurate: <b>${p.helpful_confirmations}</b> | Corrections: <b>${p.user_corrections}</b>${divInfo}
+        </p>
+        <small style="color:var(--muted)">${escapeHtml(p.note)}</small>
+      `;
+          $('personalizationCard').classList.remove('hidden');
+        } else {
+          $('personalizationCard').classList.add('hidden');
+        }
+
+        status('insightStatus', '');
+      } catch (err) {
+        status('insightStatus', `Insights unavailable: ${err.message}`, 'error');
+      }
+    }
+
+    // TAB NAVIGATION
+    document.querySelectorAll('nav button').forEach(b => {
+      b.onclick = () => {
+        document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        document.querySelectorAll('.tab').forEach(x => x.classList.add('hidden'));
+
+        const tabEl = $(b.dataset.tab);
+        if (tabEl) tabEl.classList.remove('hidden');
+
+        if (b.dataset.tab === 'history') loadEntries();
+        if (b.dataset.tab === 'insights') loadInsights();
+        if (b.dataset.tab === 'settings') loadPersonalizationStatus();
+      };
+    });
+
+    // PERSONALIZATION CONTROLS
+    async function loadPersonalizationStatus() {
+      try {
+        const res = await request('/personalization/status');
+        const p = await res.json();
+        state.personalization = p;
+
+        const statusEl = $('personalizationStatusText');
+        const detailEl = $('personalizationEvidenceDetail');
+        const toggleBtn = $('togglePersonalizationBtn');
+
+        if (p.enabled) {
+          if (p.active) {
+            statusEl.innerHTML = `<span style="color:var(--success); font-weight:600;">Active &amp; Calibrated</span> — Bayes priors applied (Evidence: ${p.feedback_count} reviews, ${p.corrections_count} corrections).`;
+          } else {
+            statusEl.innerHTML = `<span style="color:var(--warn); font-weight:600;">Building Evidence</span> — ${p.feedback_count} of ${p.threshold} needed reviews.`;
+          }
+          toggleBtn.textContent = 'Disable Personalization';
+          toggleBtn.className = 'secondary';
+        } else {
+          statusEl.innerHTML = `<span style="color:var(--muted); font-weight:600;">Disabled</span> — Base model only.`;
+          toggleBtn.textContent = 'Enable Personalization';
+          toggleBtn.className = 'primary';
+        }
+
+        detailEl.innerHTML = `
+          Status note: <em>${escapeHtml(p.explanation)}</em><br>
+          Historic adjustments: <b>${p.total_entries_personalized}</b> entries have personalized emotion adjustments.
+        `;
+      } catch (err) {
+        status('personalizationActionStatus', `Failed to load personalization status: ${err.message}`, 'error');
+      }
+    }
+
+    $('togglePersonalizationBtn').onclick = async function () {
+      if (!state.personalization) return;
+      const newEnabled = !state.personalization.enabled;
+      try {
+        status('personalizationActionStatus', 'Updating preference...');
+        const res = await request('/personalization/toggle', {
+          method: 'POST',
+          body: JSON.stringify({ enabled: newEnabled })
+        });
+        const p = await res.json();
+        status('personalizationActionStatus', `Personalization ${p.enabled ? 'enabled' : 'disabled'}.`, 'success');
+        await loadPersonalizationStatus();
+      } catch (err) {
+        status('personalizationActionStatus', `Error updating personalization: ${err.message}`, 'error');
+      }
+    };
+
+    $('resetPersonalizationBtn').onclick = async function () {
+      const confirmed = confirm('Reset your personalization calibration data? This will clear adaptive priors and reset evidence history.');
+      if (!confirmed) return;
+      try {
+        status('personalizationActionStatus', 'Resetting personalization model...');
+        await request('/personalization/reset', { method: 'POST' });
+        status('personalizationActionStatus', 'Personalization data and adaptive priors reset successfully.', 'success');
+        await loadPersonalizationStatus();
+        await loadEntries();
+      } catch (err) {
+        status('personalizationActionStatus', `Reset failed: ${err.message}`, 'error');
+      }
+    };
+
+    // CSV EXPORT
+    $('export').onclick = async function () {
+      try {
+        status('settingsStatus', 'Preparing complete journal export...');
+        const res = await request('/export');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `mood-journal-export-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        status('settingsStatus', 'Complete CSV export downloaded successfully.', 'success');
+      } catch (err) {
+        status('settingsStatus', `Export failed: ${err.message}`, 'error');
+      }
+    };
+
+    // DELETE ALL DATA
+    $('deleteAll').onclick = async function () {
+      const confirmed = confirm('Are you sure you want to PERMANENTLY DELETE all journal entries, sentiment scores, and feedback records? This cannot be undone.');
+      if (confirmed) {
+        try {
+          status('settingsStatus', 'Deleting all records...');
+          await request('/data', { method: 'DELETE' });
+          status('settingsStatus', 'All local records deleted successfully.', 'success');
+          state.entries = [];
+        } catch (err) {
+          status('settingsStatus', `Deletion failed: ${err.message}`, 'error');
+        }
+      }
+    };
+
+    // INITIALIZATION
+    $('save').onclick = saveEntry;
+    $('clear').onclick = () => {
+      $('text').value = '';
+      $('note').value = '';
+      state.mood = null;
+      renderMoodSelectors();
+      status('journalStatus', '');
+    };
+
+    $('search').oninput = loadEntries;
+    $('filter').onchange = loadEntries;
+
+    document.querySelectorAll('.period').forEach(b => {
+      b.onclick = () => {
+        document.querySelectorAll('.period').forEach(x => x.className = 'period secondary');
+        b.className = 'period primary';
+        loadInsights(b.dataset.period);
+      };
+    });
+
+    // ESC key closes edit modal
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !$('editModal').classList.contains('hidden')) {
+        window.closeEditModal();
+      }
+    });
+
+    renderMoodSelectors();
+    loadPersonalizationStatus();
+  </script>
 </body>
+
 </html>
