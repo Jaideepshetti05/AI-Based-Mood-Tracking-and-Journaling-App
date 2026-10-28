@@ -1,0 +1,4 @@
+experiment,test_population,threshold,exact_match_accuracy,hamming_loss,micro_precision,micro_recall,micro_f1,macro_precision,macro_recall,macro_f1,weighted_f1,comparison_note
+previous_baseline,original supplied test split,0.30,0.368712,0.169575,0.456202,0.484221,0.469794,0.440801,0.553765,0.433865,0.488498,different population and fixed threshold; historical baseline only
+grouped_same_test_fixed_threshold,grouped frozen test split,0.30,0.383590,0.166221,0.468041,0.493968,0.480655,0.438393,0.561208,0.431823,0.503118,same new test population; threshold sensitivity only
+grouped_frozen_test_selected_threshold,grouped frozen test split,0.35,0.398778,0.161379,0.481202,0.465421,0.473180,0.450272,0.533804,0.428426,0.490770,threshold selected using validation macro-F1 only

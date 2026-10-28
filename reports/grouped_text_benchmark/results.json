@@ -1,0 +1,706 @@
+{
+  "experiment": "grouped-identical-text leakage-controlled benchmark",
+  "status": "completed",
+  "seed": 20261027,
+  "model": "j-hartmann/emotion-english-distilroberta-base",
+  "labels": [
+    "anger",
+    "disgust",
+    "fear",
+    "joy",
+    "sadness",
+    "surprise",
+    "neutral"
+  ],
+  "threshold_policy": "Threshold selected by validation macro-F1 over 0.10..0.90 in 0.01 increments; the selected value is applied once to frozen test.",
+  "grouping": {
+    "source_files": [
+      "C:\\Users\\Jaideep\\Desktop\\inhouse project\\dataset 1\\preprocessed\\train_ekman.tsv",
+      "C:\\Users\\Jaideep\\Desktop\\inhouse project\\dataset 1\\preprocessed\\dev_ekman.tsv",
+      "C:\\Users\\Jaideep\\Desktop\\inhouse project\\dataset 1\\preprocessed\\test_ekman.tsv"
+    ],
+    "source_records": 54080,
+    "unique_text_groups": 53994,
+    "duplicate_records_collapsed": 86,
+    "groups_with_multiple_source_records": 72,
+    "label_union_policy": "Identical text groups retain the union of every valid Ekman label observed in their source records."
+  },
+  "splitting": {
+    "seed": 20261027,
+    "assignment_method": "Deterministic shuffled assignment within primary-label strata; identical text groups are indivisible.",
+    "split_ratios_requested": {
+      "train": 0.8,
+      "validation": 0.1,
+      "test": 0.1
+    },
+    "split_group_counts": {
+      "train": 43196,
+      "validation": 5399,
+      "test": 5399
+    },
+    "split_record_counts": {
+      "train": 43261,
+      "validation": 5411,
+      "test": 5408
+    }
+  },
+  "label_summary": {
+    "train": {
+      "groups": 43196,
+      "records_before_grouping": 43261,
+      "label_presence": {
+        "anger": 5607,
+        "disgust": 811,
+        "fear": 738,
+        "joy": 17235,
+        "sadness": 3210,
+        "surprise": 5353,
+        "neutral": 14194
+      },
+      "primary_label_counts": {
+        "anger": 5607,
+        "joy": 16763,
+        "surprise": 4138,
+        "neutral": 12774,
+        "fear": 703,
+        "sadness": 2561,
+        "disgust": 650
+      }
+    },
+    "validation": {
+      "groups": 5399,
+      "records_before_grouping": 5411,
+      "label_presence": {
+        "anger": 701,
+        "disgust": 96,
+        "fear": 95,
+        "joy": 2169,
+        "sadness": 407,
+        "surprise": 640,
+        "neutral": 1757
+      },
+      "primary_label_counts": {
+        "neutral": 1597,
+        "joy": 2095,
+        "anger": 701,
+        "surprise": 517,
+        "sadness": 320,
+        "disgust": 81,
+        "fear": 88
+      }
+    },
+    "test": {
+      "groups": 5399,
+      "records_before_grouping": 5408,
+      "label_presence": {
+        "anger": 701,
+        "disgust": 103,
+        "fear": 92,
+        "joy": 2161,
+        "sadness": 404,
+        "surprise": 657,
+        "neutral": 1767
+      },
+      "primary_label_counts": {
+        "neutral": 1596,
+        "surprise": 517,
+        "anger": 701,
+        "joy": 2096,
+        "fear": 88,
+        "sadness": 320,
+        "disgust": 81
+      }
+    }
+  },
+  "overlap_check": {
+    "train_validation_text_overlap": 0,
+    "train_test_text_overlap": 0,
+    "validation_test_text_overlap": 0
+  },
+  "validation_inference": {
+    "model": "j-hartmann/emotion-english-distilroberta-base",
+    "device": "cpu",
+    "batch_size": 32,
+    "max_length": 128,
+    "samples": 5399,
+    "elapsed_seconds": 164.020943,
+    "milliseconds_per_sample": 30.379875,
+    "model_id2label": {
+      "0": "anger",
+      "1": "disgust",
+      "2": "fear",
+      "3": "joy",
+      "4": "neutral",
+      "5": "sadness",
+      "6": "surprise"
+    }
+  },
+  "test_inference": {
+    "model": "j-hartmann/emotion-english-distilroberta-base",
+    "device": "cpu",
+    "batch_size": 32,
+    "max_length": 128,
+    "samples": 5399,
+    "elapsed_seconds": 105.804795,
+    "milliseconds_per_sample": 19.59711,
+    "model_id2label": {
+      "0": "anger",
+      "1": "disgust",
+      "2": "fear",
+      "3": "joy",
+      "4": "neutral",
+      "5": "sadness",
+      "6": "surprise"
+    }
+  },
+  "threshold_tuning": {
+    "selection_metric": "validation macro-F1",
+    "candidate_thresholds": [
+      {
+        "threshold": 0.1,
+        "macro_f1": 0.41273362603297675,
+        "micro_f1": 0.4744543963668475
+      },
+      {
+        "threshold": 0.11,
+        "macro_f1": 0.4172660768249031,
+        "micro_f1": 0.47780290791599356
+      },
+      {
+        "threshold": 0.12,
+        "macro_f1": 0.41902127769870734,
+        "micro_f1": 0.4786686038832387
+      },
+      {
+        "threshold": 0.13,
+        "macro_f1": 0.4198556134286426,
+        "micro_f1": 0.4795966386554622
+      },
+      {
+        "threshold": 0.14,
+        "macro_f1": 0.4217437846971127,
+        "micro_f1": 0.4807336937923482
+      },
+      {
+        "threshold": 0.15,
+        "macro_f1": 0.4240487194820027,
+        "micro_f1": 0.4817650334075724
+      },
+      {
+        "threshold": 0.16,
+        "macro_f1": 0.42562668079920163,
+        "micro_f1": 0.4832034018426648
+      },
+      {
+        "threshold": 0.17,
+        "macro_f1": 0.42784856515183234,
+        "micro_f1": 0.4844693701466782
+      },
+      {
+        "threshold": 0.18,
+        "macro_f1": 0.42936664209098513,
+        "micro_f1": 0.4852148579752367
+      },
+      {
+        "threshold": 0.19,
+        "macro_f1": 0.4300753148723033,
+        "micro_f1": 0.48538961038961037
+      },
+      {
+        "threshold": 0.2,
+        "macro_f1": 0.4291494545093694,
+        "micro_f1": 0.48421839940164546
+      },
+      {
+        "threshold": 0.21,
+        "macro_f1": 0.42940517564288294,
+        "micro_f1": 0.48270631067961167
+      },
+      {
+        "threshold": 0.22,
+        "macro_f1": 0.43001058194187286,
+        "micro_f1": 0.483076214598204
+      },
+      {
+        "threshold": 0.23,
+        "macro_f1": 0.4310789200264419,
+        "micro_f1": 0.4829404466501241
+      },
+      {
+        "threshold": 0.24,
+        "macro_f1": 0.43188676785353347,
+        "micro_f1": 0.4826614481409002
+      },
+      {
+        "threshold": 0.25,
+        "macro_f1": 0.43238689696885585,
+        "micro_f1": 0.48299857662501977
+      },
+      {
+        "threshold": 0.26,
+        "macro_f1": 0.43274935943300685,
+        "micro_f1": 0.48301223119354064
+      },
+      {
+        "threshold": 0.27,
+        "macro_f1": 0.43365219960336476,
+        "micro_f1": 0.4827140549273021
+      },
+      {
+        "threshold": 0.28,
+        "macro_f1": 0.43310311960236036,
+        "micro_f1": 0.48162333958112624
+      },
+      {
+        "threshold": 0.29,
+        "macro_f1": 0.4330977506074201,
+        "micro_f1": 0.48036154478225146
+      },
+      {
+        "threshold": 0.3,
+        "macro_f1": 0.4341224634790542,
+        "micro_f1": 0.47901807928346324
+      },
+      {
+        "threshold": 0.31,
+        "macro_f1": 0.4344540732493693,
+        "micro_f1": 0.47866822820813115
+      },
+      {
+        "threshold": 0.32,
+        "macro_f1": 0.4334565695190388,
+        "micro_f1": 0.4772131563371946
+      },
+      {
+        "threshold": 0.33,
+        "macro_f1": 0.4341530399357044,
+        "micro_f1": 0.47725336513886524
+      },
+      {
+        "threshold": 0.34,
+        "macro_f1": 0.4346007089794221,
+        "micro_f1": 0.4773097709530754
+      },
+      {
+        "threshold": 0.35,
+        "macro_f1": 0.4346215377913154,
+        "micro_f1": 0.47709593777009507
+      },
+      {
+        "threshold": 0.36,
+        "macro_f1": 0.4344269950815881,
+        "micro_f1": 0.47701949860724235
+      },
+      {
+        "threshold": 0.37,
+        "macro_f1": 0.43380567089886907,
+        "micro_f1": 0.47513812154696133
+      },
+      {
+        "threshold": 0.38,
+        "macro_f1": 0.43258414291734326,
+        "micro_f1": 0.47311258278145696
+      },
+      {
+        "threshold": 0.39,
+        "macro_f1": 0.4305600321385343,
+        "micro_f1": 0.47119579734662986
+      },
+      {
+        "threshold": 0.4,
+        "macro_f1": 0.428965246633976,
+        "micro_f1": 0.4689519023689878
+      },
+      {
+        "threshold": 0.41,
+        "macro_f1": 0.4297748695530994,
+        "micro_f1": 0.46837730393928445
+      },
+      {
+        "threshold": 0.42,
+        "macro_f1": 0.43030624719347704,
+        "micro_f1": 0.4681044681044681
+      },
+      {
+        "threshold": 0.43,
+        "macro_f1": 0.42987702670990424,
+        "micro_f1": 0.4666972056802565
+      },
+      {
+        "threshold": 0.44,
+        "macro_f1": 0.4291430940442958,
+        "micro_f1": 0.4645327921778434
+      },
+      {
+        "threshold": 0.45,
+        "macro_f1": 0.4289317835707019,
+        "micro_f1": 0.4641828486481464
+      },
+      {
+        "threshold": 0.46,
+        "macro_f1": 0.42911889773268885,
+        "micro_f1": 0.462415856394914
+      },
+      {
+        "threshold": 0.47,
+        "macro_f1": 0.4294538777470002,
+        "micro_f1": 0.4605089538171536
+      },
+      {
+        "threshold": 0.48,
+        "macro_f1": 0.42797507778241284,
+        "micro_f1": 0.45874869457894235
+      },
+      {
+        "threshold": 0.49,
+        "macro_f1": 0.4264982840330715,
+        "micro_f1": 0.4569023246914761
+      },
+      {
+        "threshold": 0.5,
+        "macro_f1": 0.4253480029639546,
+        "micro_f1": 0.4553425185470662
+      },
+      {
+        "threshold": 0.51,
+        "macro_f1": 0.4235240162711459,
+        "micro_f1": 0.45307192079976705
+      },
+      {
+        "threshold": 0.52,
+        "macro_f1": 0.42441276972916203,
+        "micro_f1": 0.45137937781256116
+      },
+      {
+        "threshold": 0.53,
+        "macro_f1": 0.42073036334907116,
+        "micro_f1": 0.44790537210448494
+      },
+      {
+        "threshold": 0.54,
+        "macro_f1": 0.4198768379944764,
+        "micro_f1": 0.44632038931373524
+      },
+      {
+        "threshold": 0.55,
+        "macro_f1": 0.41953488022493834,
+        "micro_f1": 0.44455564451561247
+      },
+      {
+        "threshold": 0.56,
+        "macro_f1": 0.4181399625958357,
+        "micro_f1": 0.4422515355956097
+      },
+      {
+        "threshold": 0.57,
+        "macro_f1": 0.41741529697437774,
+        "micro_f1": 0.4393262987012987
+      },
+      {
+        "threshold": 0.58,
+        "macro_f1": 0.4151525952804648,
+        "micro_f1": 0.4367534456355283
+      },
+      {
+        "threshold": 0.59,
+        "macro_f1": 0.4135461763543245,
+        "micro_f1": 0.43344990742645545
+      },
+      {
+        "threshold": 0.6,
+        "macro_f1": 0.4129525110947069,
+        "micro_f1": 0.431283061923037
+      },
+      {
+        "threshold": 0.61,
+        "macro_f1": 0.4114688608451443,
+        "micro_f1": 0.4294209702660407
+      },
+      {
+        "threshold": 0.62,
+        "macro_f1": 0.40830443556925833,
+        "micro_f1": 0.4252680260668489
+      },
+      {
+        "threshold": 0.63,
+        "macro_f1": 0.4073894078940806,
+        "micro_f1": 0.42261274613593053
+      },
+      {
+        "threshold": 0.64,
+        "macro_f1": 0.40402363693582755,
+        "micro_f1": 0.41748610517315093
+      },
+      {
+        "threshold": 0.65,
+        "macro_f1": 0.40243776714917656,
+        "micro_f1": 0.41501721170395867
+      },
+      {
+        "threshold": 0.66,
+        "macro_f1": 0.40111297901644916,
+        "micro_f1": 0.4122302938306408
+      },
+      {
+        "threshold": 0.67,
+        "macro_f1": 0.3981154215013572,
+        "micro_f1": 0.4083906915765323
+      },
+      {
+        "threshold": 0.68,
+        "macro_f1": 0.3971669111170715,
+        "micro_f1": 0.40667911677468965
+      },
+      {
+        "threshold": 0.69,
+        "macro_f1": 0.3955670442780051,
+        "micro_f1": 0.403145420312327
+      },
+      {
+        "threshold": 0.7,
+        "macro_f1": 0.39430098131910907,
+        "micro_f1": 0.3993756271602185
+      },
+      {
+        "threshold": 0.71,
+        "macro_f1": 0.3925628034656408,
+        "micro_f1": 0.3960863697705803
+      },
+      {
+        "threshold": 0.72,
+        "macro_f1": 0.3893129569736771,
+        "micro_f1": 0.39232603019639006
+      },
+      {
+        "threshold": 0.73,
+        "macro_f1": 0.38867514102213685,
+        "micro_f1": 0.3887046987538585
+      },
+      {
+        "threshold": 0.74,
+        "macro_f1": 0.3842475913239668,
+        "micro_f1": 0.3847838616714697
+      },
+      {
+        "threshold": 0.75,
+        "macro_f1": 0.3815061166680036,
+        "micro_f1": 0.3780700733325573
+      },
+      {
+        "threshold": 0.76,
+        "macro_f1": 0.3776099654916133,
+        "micro_f1": 0.3723391744090321
+      },
+      {
+        "threshold": 0.77,
+        "macro_f1": 0.3713347021165118,
+        "micro_f1": 0.365425658050747
+      },
+      {
+        "threshold": 0.78,
+        "macro_f1": 0.3691711028872646,
+        "micro_f1": 0.35945913605360774
+      },
+      {
+        "threshold": 0.79,
+        "macro_f1": 0.366864890163003,
+        "micro_f1": 0.3549710424710425
+      },
+      {
+        "threshold": 0.8,
+        "macro_f1": 0.3625136804178705,
+        "micro_f1": 0.34777303233679074
+      },
+      {
+        "threshold": 0.81,
+        "macro_f1": 0.3582482261036975,
+        "micro_f1": 0.3410126894172724
+      },
+      {
+        "threshold": 0.82,
+        "macro_f1": 0.35652111248376955,
+        "micro_f1": 0.33507592730893704
+      },
+      {
+        "threshold": 0.83,
+        "macro_f1": 0.35243656364671455,
+        "micro_f1": 0.32593340060544906
+      },
+      {
+        "threshold": 0.84,
+        "macro_f1": 0.34896168686095574,
+        "micro_f1": 0.3177236187316575
+      },
+      {
+        "threshold": 0.85,
+        "macro_f1": 0.3435931782438869,
+        "micro_f1": 0.30864676231097327
+      },
+      {
+        "threshold": 0.86,
+        "macro_f1": 0.33808756534723317,
+        "micro_f1": 0.2996078431372549
+      },
+      {
+        "threshold": 0.87,
+        "macro_f1": 0.3305688910882924,
+        "micro_f1": 0.2883289124668435
+      },
+      {
+        "threshold": 0.88,
+        "macro_f1": 0.32131840943466755,
+        "micro_f1": 0.2761314655172414
+      },
+      {
+        "threshold": 0.89,
+        "macro_f1": 0.31122102826730913,
+        "micro_f1": 0.26171553850369966
+      },
+      {
+        "threshold": 0.9,
+        "macro_f1": 0.30257318270965633,
+        "micro_f1": 0.24731931485865477
+      }
+    ],
+    "selected_threshold": 0.35,
+    "selected_validation_metrics": {
+      "threshold": 0.35,
+      "samples": 5399,
+      "exact_match_accuracy": 0.40248194110020374,
+      "hamming_loss": 0.16008255497049717,
+      "micro_precision": 0.48378615249780893,
+      "micro_recall": 0.47058823529411764,
+      "micro_f1": 0.47709593777009507,
+      "macro_precision": 0.4584742651592118,
+      "macro_recall": 0.5523601105477883,
+      "macro_f1": 0.4346215377913154,
+      "weighted_f1": 0.49005009598685983,
+      "per_class": {
+        "anger": {
+          "precision": 0.46107784431137727,
+          "recall": 0.32952924393723254,
+          "f1": 0.3843594009983361,
+          "support": 701
+        },
+        "disgust": {
+          "precision": 0.12481857764876633,
+          "recall": 0.8958333333333334,
+          "f1": 0.21910828025477708,
+          "support": 96
+        },
+        "fear": {
+          "precision": 0.34517766497461927,
+          "recall": 0.7157894736842105,
+          "f1": 0.4657534246575342,
+          "support": 95
+        },
+        "joy": {
+          "precision": 0.9042675893886967,
+          "recall": 0.3614568925772245,
+          "f1": 0.5164690382081687,
+          "support": 2169
+        },
+        "sadness": {
+          "precision": 0.5,
+          "recall": 0.4987714987714988,
+          "f1": 0.4993849938499385,
+          "support": 407
+        },
+        "surprise": {
+          "precision": 0.40261627906976744,
+          "recall": 0.4328125,
+          "f1": 0.4171686746987952,
+          "support": 640
+        },
+        "neutral": {
+          "precision": 0.47136190072125583,
+          "recall": 0.6323278315310188,
+          "f1": 0.5401069518716578,
+          "support": 1757
+        }
+      },
+      "predicted_positive_counts": {
+        "anger": 501,
+        "disgust": 689,
+        "fear": 197,
+        "joy": 867,
+        "sadness": 406,
+        "surprise": 688,
+        "neutral": 2357
+      }
+    }
+  },
+  "frozen_test_metrics": {
+    "threshold": 0.35,
+    "samples": 5399,
+    "exact_match_accuracy": 0.3987775513984071,
+    "hamming_loss": 0.161379091366126,
+    "micro_precision": 0.48120168657765283,
+    "micro_recall": 0.4654205607476635,
+    "micro_f1": 0.4731795802021249,
+    "macro_precision": 0.4502724914315244,
+    "macro_recall": 0.5338037660781828,
+    "macro_f1": 0.42842640990782505,
+    "weighted_f1": 0.49076974585104133,
+    "per_class": {
+      "anger": {
+        "precision": 0.43738977072310403,
+        "recall": 0.3537803138373752,
+        "f1": 0.3911671924290221,
+        "support": 701
+      },
+      "disgust": {
+        "precision": 0.1282420749279539,
+        "recall": 0.8640776699029126,
+        "f1": 0.2233375156838143,
+        "support": 103
+      },
+      "fear": {
+        "precision": 0.3333333333333333,
+        "recall": 0.6739130434782609,
+        "f1": 0.4460431654676259,
+        "support": 92
+      },
+      "joy": {
+        "precision": 0.9025695931477516,
+        "recall": 0.3900971772327626,
+        "f1": 0.5447495961227786,
+        "support": 2161
+      },
+      "sadness": {
+        "precision": 0.4986449864498645,
+        "recall": 0.45544554455445546,
+        "f1": 0.4760672703751617,
+        "support": 404
+      },
+      "surprise": {
+        "precision": 0.3872832369942196,
+        "recall": 0.4079147640791476,
+        "f1": 0.3973313565604151,
+        "support": 657
+      },
+      "neutral": {
+        "precision": 0.46444444444444444,
+        "recall": 0.5913978494623656,
+        "f1": 0.5202887727159572,
+        "support": 1767
+      }
+    },
+    "predicted_positive_counts": {
+      "anger": 567,
+      "disgust": 694,
+      "fear": 186,
+      "joy": 934,
+      "sadness": 369,
+      "surprise": 692,
+      "neutral": 2250
+    }
+  },
+  "limitations": [
+    "This is benchmark-domain evaluation on Reddit-derived GoEmotions text, not journal-domain validation.",
+    "Identical text is grouped exactly as stored; semantic near-duplicates are not removed.",
+    "Label union within duplicate-text groups preserves observed labels but changes the row-level representation.",
+    "The model is pretrained and not retrained on the newly created training split.",
+    "Threshold tuning uses validation only; test labels are not used for selection."
+  ]
+}

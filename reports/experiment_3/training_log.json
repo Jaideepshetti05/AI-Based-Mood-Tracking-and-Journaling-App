@@ -1,0 +1,86 @@
+[
+  {
+    "epoch": 1,
+    "global_step": 1350,
+    "mean_training_loss": 0.327225436270237,
+    "validation": {
+      "threshold": 0.29,
+      "samples": 5399,
+      "exact_match_accuracy": 0.40914984256343767,
+      "hamming_loss": 0.13319926970603022,
+      "micro_precision": 0.5572708476912475,
+      "micro_recall": 0.6893435635123615,
+      "micro_f1": 0.6163109756097561,
+      "macro_precision": 0.4966622995273176,
+      "macro_recall": 0.5850083412765439,
+      "macro_f1": 0.5348163587621063,
+      "weighted_f1": 0.6128459044093371,
+      "per_class": {
+        "anger": {
+          "precision": 0.43444730077120824,
+          "recall": 0.48216833095577744,
+          "f1": 0.4570655848546315,
+          "support": 701,
+          "true_positive": 338,
+          "false_positive": 440,
+          "false_negative": 363
+        },
+        "disgust": {
+          "precision": 0.43564356435643564,
+          "recall": 0.4583333333333333,
+          "f1": 0.4467005076142132,
+          "support": 96,
+          "true_positive": 44,
+          "false_positive": 57,
+          "false_negative": 52
+        },
+        "fear": {
+          "precision": 0.44881889763779526,
+          "recall": 0.6,
+          "f1": 0.5135135135135135,
+          "support": 95,
+          "true_positive": 57,
+          "false_positive": 70,
+          "false_negative": 38
+        },
+        "joy": {
+          "precision": 0.6674225245653818,
+          "recall": 0.814200092208391,
+          "f1": 0.7335410176531671,
+          "support": 2169,
+          "true_positive": 1766,
+          "false_positive": 880,
+          "false_negative": 403
+        },
+        "sadness": {
+          "precision": 0.4896073903002309,
+          "recall": 0.5208845208845209,
+          "f1": 0.5047619047619047,
+          "support": 407,
+          "true_positive": 212,
+          "false_positive": 221,
+          "false_negative": 195
+        },
+        "surprise": {
+          "precision": 0.47974068071312803,
+          "recall": 0.4625,
+          "f1": 0.4709626093874304,
+          "support": 640,
+          "true_positive": 296,
+          "false_positive": 321,
+          "false_negative": 344
+        },
+        "neutral": {
+          "precision": 0.5209557383470427,
+          "recall": 0.7569721115537849,
+          "f1": 0.617169373549884,
+          "support": 1757,
+          "true_positive": 1330,
+          "false_positive": 1223,
+          "false_negative": 427
+        }
+      }
+    },
+    "elapsed_seconds": 1365.6354685999997
+  }
+]

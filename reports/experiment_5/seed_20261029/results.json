@@ -1,0 +1,382 @@
+{
+  "status": "completed",
+  "experiment": "Experiment 5 robustness and class-imbalance follow-up",
+  "seed": 20261029,
+  "variant": "frozen-encoder classification head with sqrt inverse-frequency positive weighting",
+  "class_counts_train": {
+    "anger": 5607,
+    "disgust": 811,
+    "fear": 738,
+    "joy": 17235,
+    "sadness": 3210,
+    "surprise": 5353,
+    "neutral": 14194
+  },
+  "pos_weight_research_order": {
+    "anger": 2.5891971588134766,
+    "disgust": 7.22929048538208,
+    "fear": 7.584930419921875,
+    "joy": 1.2273122072219849,
+    "sadness": 3.529404640197754,
+    "surprise": 2.6588518619537354,
+    "neutral": 1.4294257164001465
+  },
+  "threshold_selected_on_validation": 0.52,
+  "validation_metrics": {
+    "threshold": 0.52,
+    "samples": 5399,
+    "exact_match_accuracy": 0.474717540285238,
+    "hamming_loss": 0.12547297118514011,
+    "micro_precision": 0.5972968289724484,
+    "micro_recall": 0.5877237851662405,
+    "micro_f1": 0.5924716397387418,
+    "macro_precision": 0.49886378782105006,
+    "macro_recall": 0.607418832422942,
+    "macro_f1": 0.5323189340932694,
+    "weighted_f1": 0.5991567857606267,
+    "per_class": {
+      "anger": {
+        "precision": 0.43453070683661643,
+        "recall": 0.5349500713266762,
+        "f1": 0.479539641943734,
+        "support": 701,
+        "true_positive": 375,
+        "false_positive": 488,
+        "false_negative": 326
+      },
+      "disgust": {
+        "precision": 0.335,
+        "recall": 0.6979166666666666,
+        "f1": 0.4527027027027027,
+        "support": 96,
+        "true_positive": 67,
+        "false_positive": 133,
+        "false_negative": 29
+      },
+      "fear": {
+        "precision": 0.36649214659685864,
+        "recall": 0.7368421052631579,
+        "f1": 0.48951048951048953,
+        "support": 95,
+        "true_positive": 70,
+        "false_positive": 121,
+        "false_negative": 25
+      },
+      "joy": {
+        "precision": 0.7803590285110876,
+        "recall": 0.6814200092208391,
+        "f1": 0.727541225695299,
+        "support": 2169,
+        "true_positive": 1478,
+        "false_positive": 416,
+        "false_negative": 691
+      },
+      "sadness": {
+        "precision": 0.4624505928853755,
+        "recall": 0.5749385749385749,
+        "f1": 0.5125958378970427,
+        "support": 407,
+        "true_positive": 234,
+        "false_positive": 272,
+        "false_negative": 173
+      },
+      "surprise": {
+        "precision": 0.5,
+        "recall": 0.51875,
+        "f1": 0.50920245398773,
+        "support": 640,
+        "true_positive": 332,
+        "false_positive": 332,
+        "false_negative": 308
+      },
+      "neutral": {
+        "precision": 0.6132140399174123,
+        "recall": 0.5071143995446784,
+        "f1": 0.5551401869158878,
+        "support": 1757,
+        "true_positive": 891,
+        "false_positive": 562,
+        "false_negative": 866
+      }
+    }
+  },
+  "test_metrics": {
+    "threshold": 0.52,
+    "samples": 5399,
+    "exact_match_accuracy": 0.47286534543433967,
+    "hamming_loss": 0.1266107480221205,
+    "micro_precision": 0.5946643717728055,
+    "micro_recall": 0.5870858113848768,
+    "micro_f1": 0.5908507909362976,
+    "macro_precision": 0.49596416802728444,
+    "macro_recall": 0.6103738629087694,
+    "macro_f1": 0.5295659000902054,
+    "weighted_f1": 0.59838030054357,
+    "per_class": {
+      "anger": {
+        "precision": 0.4337221633085896,
+        "recall": 0.5834522111269614,
+        "f1": 0.4975669099756691,
+        "support": 701,
+        "true_positive": 409,
+        "false_positive": 534,
+        "false_negative": 292
+      },
+      "disgust": {
+        "precision": 0.3008849557522124,
+        "recall": 0.6601941747572816,
+        "f1": 0.4133738601823708,
+        "support": 103,
+        "true_positive": 68,
+        "false_positive": 158,
+        "false_negative": 35
+      },
+      "fear": {
+        "precision": 0.375,
+        "recall": 0.782608695652174,
+        "f1": 0.5070422535211268,
+        "support": 92,
+        "true_positive": 72,
+        "false_positive": 120,
+        "false_negative": 20
+      },
+      "joy": {
+        "precision": 0.792361484669177,
+        "recall": 0.6816288755205924,
+        "f1": 0.7328358208955223,
+        "support": 2161,
+        "true_positive": 1473,
+        "false_positive": 386,
+        "false_negative": 688
+      },
+      "sadness": {
+        "precision": 0.45188284518828453,
+        "recall": 0.5346534653465347,
+        "f1": 0.4897959183673469,
+        "support": 404,
+        "true_positive": 216,
+        "false_positive": 262,
+        "false_negative": 188
+      },
+      "surprise": {
+        "precision": 0.5071022727272727,
+        "recall": 0.54337899543379,
+        "f1": 0.5246142542248347,
+        "support": 657,
+        "true_positive": 357,
+        "false_positive": 347,
+        "false_negative": 300
+      },
+      "neutral": {
+        "precision": 0.6107954545454546,
+        "recall": 0.48670062252405205,
+        "f1": 0.5417322834645669,
+        "support": 1767,
+        "true_positive": 860,
+        "false_positive": 548,
+        "false_negative": 907
+      }
+    }
+  },
+  "original_model_b_test_metrics": {
+    "threshold": 0.29,
+    "samples": 5399,
+    "exact_match_accuracy": 0.4058158918318207,
+    "hamming_loss": 0.13322572963247162,
+    "micro_precision": 0.5585077092511013,
+    "micro_recall": 0.6893797790994053,
+    "micro_f1": 0.6170811468552742,
+    "macro_precision": 0.5027919691844815,
+    "macro_recall": 0.5899752036203105,
+    "macro_f1": 0.5405405155491766,
+    "weighted_f1": 0.6147615132679065,
+    "per_class": {
+      "anger": {
+        "precision": 0.4409722222222222,
+        "recall": 0.543509272467903,
+        "f1": 0.48690095846645365,
+        "support": 701,
+        "true_positive": 381,
+        "false_positive": 483,
+        "false_negative": 320
+      },
+      "disgust": {
+        "precision": 0.44144144144144143,
+        "recall": 0.47572815533980584,
+        "f1": 0.45794392523364486,
+        "support": 103,
+        "true_positive": 49,
+        "false_positive": 62,
+        "false_negative": 54
+      },
+      "fear": {
+        "precision": 0.4745762711864407,
+        "recall": 0.6086956521739131,
+        "f1": 0.5333333333333333,
+        "support": 92,
+        "true_positive": 56,
+        "false_positive": 62,
+        "false_negative": 36
+      },
+      "joy": {
+        "precision": 0.6742220514790627,
+        "recall": 0.8121240166589542,
+        "f1": 0.7367758186397985,
+        "support": 2161,
+        "true_positive": 1755,
+        "false_positive": 848,
+        "false_negative": 406
+      },
+      "sadness": {
+        "precision": 0.4823232323232323,
+        "recall": 0.47277227722772275,
+        "f1": 0.4775,
+        "support": 404,
+        "true_positive": 191,
+        "false_positive": 205,
+        "false_negative": 213
+      },
+      "surprise": {
+        "precision": 0.48746081504702193,
+        "recall": 0.4733637747336377,
+        "f1": 0.4803088803088803,
+        "support": 657,
+        "true_positive": 311,
+        "false_positive": 327,
+        "false_negative": 346
+      },
+      "neutral": {
+        "precision": 0.5185477505919495,
+        "recall": 0.7436332767402377,
+        "f1": 0.6110206928621251,
+        "support": 1767,
+        "true_positive": 1314,
+        "false_positive": 1220,
+        "false_negative": 453
+      }
+    }
+  },
+  "difference_weighted_minus_original_b": {
+    "macro_f1": -0.01097461545897116,
+    "micro_f1": -0.0262303559189766,
+    "weighted_f1": -0.016381212724336458,
+    "exact_match_accuracy": 0.06704945360251896,
+    "hamming_loss": -0.006614981610351123
+  },
+  "paired_bootstrap_vs_original_b": {
+    "macro_f1": {
+      "point_estimate": -0.01097461545897116,
+      "lower_95": -0.02422648903942836,
+      "upper_95": 0.002805297160222828
+    },
+    "micro_f1": {
+      "point_estimate": -0.0262303559189766,
+      "lower_95": -0.03407859219815222,
+      "upper_95": -0.018601529903756884
+    },
+    "weighted_f1": {
+      "point_estimate": -0.016381212724336458,
+      "lower_95": -0.024643449647919653,
+      "upper_95": -0.008570728998560498
+    },
+    "exact_match_accuracy": {
+      "point_estimate": 0.06704945360251896,
+      "lower_95": 0.05593628449712912,
+      "upper_95": 0.07779681422485644
+    }
+  },
+  "training": {
+    "loss": "BCEWithLogitsLoss with sqrt inverse-frequency positive weights",
+    "optimizer": "AdamW",
+    "batch_size": 32,
+    "learning_rate": 2e-05,
+    "epochs": 1,
+    "encoder_frozen": true,
+    "elapsed_seconds": 1291.624356299999,
+    "test_inference_seconds": 68.95709500000157
+  },
+  "audit": {
+    "train": {
+      "expected_rows": 43196,
+      "labels_present": {
+        "anger": 5607,
+        "disgust": 811,
+        "fear": 738,
+        "joy": 17235,
+        "sadness": 3210,
+        "surprise": 5353,
+        "neutral": 14194
+      }
+    },
+    "validation": {
+      "expected_rows": 5399,
+      "labels_present": {
+        "anger": 701,
+        "disgust": 96,
+        "fear": 95,
+        "joy": 2169,
+        "sadness": 407,
+        "surprise": 640,
+        "neutral": 1757
+      },
+      "rows": 5399,
+      "columns": [
+        "id",
+        "text_sha256",
+        "anger",
+        "disgust",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise",
+        "neutral"
+      ],
+      "ids_aligned": true,
+      "hashes_aligned": true
+    },
+    "test": {
+      "expected_rows": 5399,
+      "labels_present": {
+        "anger": 701,
+        "disgust": 103,
+        "fear": 92,
+        "joy": 2161,
+        "sadness": 404,
+        "surprise": 657,
+        "neutral": 1767
+      },
+      "rows": 5399,
+      "columns": [
+        "id",
+        "text_sha256",
+        "anger",
+        "disgust",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise",
+        "neutral"
+      ],
+      "ids_aligned": true,
+      "hashes_aligned": true
+    },
+    "overlap": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "checkpoint_files": [
+      "reports\\experiment_3\\best_model\\config.json",
+      "reports\\experiment_3\\best_model\\model.safetensors",
+      "reports\\experiment_3\\best_model\\tokenizer.json",
+      "reports\\experiment_3\\best_model\\tokenizer_config.json"
+    ],
+    "training_log_present": true,
+    "reproducibility_conclusion": "saved Model B artifacts are complete and independently aligned"
+  },
+  "artifacts": {
+    "checkpoint": "reports\\experiment_5\\seed_20261029\\weighted_head_model",
+    "validation_predictions": "reports\\experiment_5\\seed_20261029\\weighted_validation_predictions.tsv",
+    "test_predictions": "reports\\experiment_5\\seed_20261029\\weighted_test_predictions.tsv"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "experiment": "Experiment 4 full transformer fine-tuning",
+  "status": "infeasible_on_measured_host",
+  "model_c": {
+    "status": "not_trained",
+    "reason": "Full fp32 AdamW training was not started because the measured available RAM was insufficient for the model-plus-gradient-plus-optimizer lower bound.",
+    "test_evaluation_performed": false
+  },
+  "model_a": {
+    "name": "Existing pretrained baseline",
+    "threshold": 0.35,
+    "test_metrics_source": "reports/experiment_3_results.json",
+    "macro_f1": 0.42842640990782505,
+    "micro_f1": 0.4731795802021249,
+    "weighted_f1": 0.49076974585104133,
+    "exact_match_accuracy": 0.3987775513984071,
+    "hamming_loss": 0.161379091366126
+  },
+  "model_b": {
+    "name": "Experiment 3 classification-head transfer learning",
+    "threshold": 0.29,
+    "test_metrics_source": "reports/experiment_3_results.json",
+    "macro_f1": 0.5405405155491766,
+    "micro_f1": 0.6170811468552742,
+    "weighted_f1": 0.6147615132679065,
+    "exact_match_accuracy": 0.4058158918318207,
+    "hamming_loss": 0.13322572963247162
+  },
+  "model_c_metrics": null,
+  "frozen_split_sizes": {
+    "train": 43196,
+    "validation": 5399,
+    "test": 5399
+  },
+  "test_set_preserved": true,
+  "production_modified": false
+}

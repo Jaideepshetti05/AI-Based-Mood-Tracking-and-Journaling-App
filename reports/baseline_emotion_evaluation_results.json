@@ -1,0 +1,273 @@
+{
+  "evaluation_scope": "Existing held-out prediction artifacts; no model training or application changes were performed.",
+  "transformer": {
+    "model": "j-hartmann/emotion-english-distilroberta-base",
+    "reference_file": "C:\\Users\\Jaideep\\Desktop\\inhouse project\\dataset 1\\preprocessed\\test_ekman.tsv",
+    "prediction_file": "C:\\Users\\Jaideep\\Desktop\\inhouse project\\dataset 1\\preprocessed\\hf_model_test_predictions.tsv",
+    "labels": [
+      "anger",
+      "disgust",
+      "fear",
+      "joy",
+      "sadness",
+      "surprise",
+      "neutral"
+    ],
+    "reference_records": 5427,
+    "duplicate_prediction_rows": 5,
+    "evaluation_time_seconds": 0.049993,
+    "evaluation_time_ms_per_sample": 0.009212,
+    "multilabel": {
+      "task": "seven-label multi-label classification",
+      "threshold": 0.3,
+      "samples": 5427,
+      "exact_match_accuracy": 0.3687119955776672,
+      "hamming_loss": 0.1695754034062492,
+      "micro_precision": 0.4562020460358056,
+      "macro_precision": 0.4408013396481308,
+      "macro_recall": 0.5537646673995302,
+      "macro_f1": 0.4338646318483172,
+      "weighted_f1": 0.48849758182352354,
+      "per_class": {
+        "anger": {
+          "precision": 0.43874172185430466,
+          "recall": 0.3650137741046832,
+          "f1": 0.39849624060150374,
+          "support": 726
+        },
+        "disgust": {
+          "precision": 0.12935323383084577,
+          "recall": 0.8455284552845529,
+          "f1": 0.2243797195253506,
+          "support": 123
+        },
+        "fear": {
+          "precision": 0.3613861386138614,
+          "recall": 0.7448979591836735,
+          "f1": 0.4866666666666667,
+          "support": 98
+        },
+        "joy": {
+          "precision": 0.88016967126193,
+          "recall": 0.39448669201520914,
+          "f1": 0.544798162126682,
+          "support": 2104
+        },
+        "sadness": {
+          "precision": 0.46684350132625996,
+          "recall": 0.46437994722955145,
+          "f1": 0.4656084656084656,
+          "support": 379
+        },
+        "surprise": {
+          "precision": 0.36900369003690037,
+          "recall": 0.4431314623338257,
+          "f1": 0.40268456375838924,
+          "support": 677
+        },
+        "neutral": {
+          "precision": 0.4401114206128134,
+          "recall": 0.6189143816452154,
+          "f1": 0.5144186046511627,
+          "support": 1787
+        }
+      },
+      "predicted_positive_counts": {
+        "anger": 604,
+        "disgust": 804,
+        "fear": 202,
+        "joy": 943,
+        "sadness": 377,
+        "surprise": 813,
+        "neutral": 2513
+      }
+    },
+    "single_label_proxy": {
+      "task": "single-label proxy using the first encoded reference label",
+      "warning": "The source task is multi-label. This proxy is deterministic for summary accuracy and confusion matrix only; it is not the original single-label annotation task.",
+      "samples": 5427,
+      "accuracy": 0.4405749032614704,
+      "macro_precision": 0.4231324313346981,
+      "macro_recall": 0.5233014039659427,
+      "macro_f1": 0.4063505534551371,
+      "weighted_f1": 0.45682354816911097,
+      "per_class": {
+        "anger": {
+          "precision": 0.43333333333333335,
+          "recall": 0.3044077134986226,
+          "f1": 0.35760517799352753,
+          "support": 726
+        },
+        "disgust": {
+          "precision": 0.12198795180722892,
+          "recall": 0.84375,
+          "f1": 0.2131578947368421,
+          "support": 96
+        },
+        "fear": {
+          "precision": 0.3655913978494624,
+          "recall": 0.7157894736842105,
+          "f1": 0.48398576512455516,
+          "support": 95
+        },
+        "joy": {
+          "precision": 0.8843373493975903,
+          "recall": 0.35735150925024345,
+          "f1": 0.5090152565880721,
+          "support": 2054
+        },
+        "sadness": {
+          "precision": 0.42120343839541546,
+          "recall": 0.4637223974763407,
+          "f1": 0.44144144144144143,
+          "support": 317
+        },
+        "surprise": {
+          "precision": 0.31703703703703706,
+          "recall": 0.40150093808630394,
+          "f1": 0.3543046357615894,
+          "support": 533
+        },
+        "neutral": {
+          "precision": 0.4184365115228197,
+          "recall": 0.5765877957658779,
+          "f1": 0.4849437025399319,
+          "support": 1606
+        }
+      },
+      "confusion_matrix": [
+        [
+          221,
+          205,
+          14,
+          11,
+          40,
+          45,
+          190
+        ],
+        [
+          7,
+          81,
+          3,
+          1,
+          0,
+          2,
+          2
+        ],
+        [
+          2,
+          11,
+          68,
+          2,
+          4,
+          2,
+          6
+        ],
+        [
+          85,
+          100,
+          35,
+          734,
+          80,
+          212,
+          808
+        ],
+        [
+          16,
+          56,
+          12,
+          4,
+          147,
+          29,
+          53
+        ],
+        [
+          22,
+          33,
+          11,
+          11,
+          14,
+          214,
+          228
+        ],
+        [
+          157,
+          178,
+          43,
+          67,
+          64,
+          171,
+          926
+        ]
+      ],
+      "confusion_matrix_labels": [
+        "anger",
+        "disgust",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise",
+        "neutral"
+      ]
+    }
+  },
+  "vader": {
+    "model": "VADER",
+    "reference_file": "C:\\Users\\Jaideep\\Desktop\\inhouse project\\dataset 1\\preprocessed\\test_sentiment.tsv",
+    "prediction_file": "C:\\Users\\Jaideep\\Desktop\\inhouse project\\dataset 1\\preprocessed\\vader_test_predictions.tsv",
+    "labels": [
+      "positive",
+      "negative",
+      "ambiguous"
+    ],
+    "reference_records": 5427,
+    "multilabel_reference_note": "VADER emits one sentiment label. Accuracy and per-class scores use the first encoded reference label as a deterministic proxy. This is not a fully multilabel VADER evaluation.",
+    "accuracy": 0.619126589275843,
+    "macro_precision": 0.6217704853043772,
+    "macro_recall": 0.6273648004069322,
+    "macro_f1": 0.6014820619544125,
+    "weighted_f1": 0.6063549920276989,
+    "per_class": {
+      "positive": {
+        "precision": 0.6469702672186677,
+        "recall": 0.8170152091254753,
+        "f1": 0.722117202268431,
+        "support": 2104
+      },
+      "negative": {
+        "precision": 0.4965430546825896,
+        "recall": 0.6672297297297297,
+        "f1": 0.5693693693693693,
+        "support": 1184
+      },
+      "ambiguous": {
+        "precision": 0.7217981340118744,
+        "recall": 0.3978494623655914,
+        "f1": 0.512959614225437,
+        "support": 2139
+      }
+    },
+    "confusion_matrix": [
+      [
+        1719,
+        220,
+        165
+      ],
+      [
+        231,
+        790,
+        163
+      ],
+      [
+        707,
+        581,
+        851
+      ]
+    ],
+    "confusion_matrix_labels": [
+      "positive",
+      "negative",
+      "ambiguous"
+    ]
+  }
+}

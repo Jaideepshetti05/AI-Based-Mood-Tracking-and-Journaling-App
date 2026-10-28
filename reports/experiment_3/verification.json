@@ -1,0 +1,206 @@
+{
+  "status": "passed",
+  "split_overlap": {
+    "train_validation_overlap": 0,
+    "train_test_overlap": 0,
+    "validation_test_overlap": 0
+  },
+  "identical_test_rows": 5399,
+  "prediction_alignment": {
+    "baseline_validation": true,
+    "baseline_test": true,
+    "experimental_validation": true,
+    "experimental_test": true,
+    "method": "ordered split IDs and SHA-256 text hashes"
+  },
+  "label_mapping_verified": {
+    "model_head_order": [
+      "anger",
+      "disgust",
+      "fear",
+      "joy",
+      "neutral",
+      "sadness",
+      "surprise"
+    ],
+    "research_order": [
+      "anger",
+      "disgust",
+      "fear",
+      "joy",
+      "sadness",
+      "surprise",
+      "neutral"
+    ],
+    "mapping_applied": true
+  },
+  "test_not_used_for_selection": true,
+  "model_b_training_split_only": true,
+  "validation_used_for_checkpoint_and_threshold": true,
+  "recomputed_metrics_match_saved": {
+    "baseline_test": true,
+    "experimental_test": true
+  },
+  "baseline_test_metrics": {
+    "threshold": 0.35,
+    "samples": 5399,
+    "exact_match_accuracy": 0.3987775513984071,
+    "hamming_loss": 0.161379091366126,
+    "micro_precision": 0.48120168657765283,
+    "micro_recall": 0.4654205607476635,
+    "micro_f1": 0.4731795802021249,
+    "macro_precision": 0.4502724914315244,
+    "macro_recall": 0.5338037660781828,
+    "macro_f1": 0.42842640990782505,
+    "weighted_f1": 0.49076974585104133,
+    "per_class": {
+      "anger": {
+        "precision": 0.43738977072310403,
+        "recall": 0.3537803138373752,
+        "f1": 0.3911671924290221,
+        "support": 701,
+        "true_positive": 248,
+        "false_positive": 319,
+        "false_negative": 453
+      },
+      "disgust": {
+        "precision": 0.1282420749279539,
+        "recall": 0.8640776699029126,
+        "f1": 0.2233375156838143,
+        "support": 103,
+        "true_positive": 89,
+        "false_positive": 605,
+        "false_negative": 14
+      },
+      "fear": {
+        "precision": 0.3333333333333333,
+        "recall": 0.6739130434782609,
+        "f1": 0.4460431654676259,
+        "support": 92,
+        "true_positive": 62,
+        "false_positive": 124,
+        "false_negative": 30
+      },
+      "joy": {
+        "precision": 0.9025695931477516,
+        "recall": 0.3900971772327626,
+        "f1": 0.5447495961227786,
+        "support": 2161,
+        "true_positive": 843,
+        "false_positive": 91,
+        "false_negative": 1318
+      },
+      "sadness": {
+        "precision": 0.4986449864498645,
+        "recall": 0.45544554455445546,
+        "f1": 0.4760672703751617,
+        "support": 404,
+        "true_positive": 184,
+        "false_positive": 185,
+        "false_negative": 220
+      },
+      "surprise": {
+        "precision": 0.3872832369942196,
+        "recall": 0.4079147640791476,
+        "f1": 0.3973313565604151,
+        "support": 657,
+        "true_positive": 268,
+        "false_positive": 424,
+        "false_negative": 389
+      },
+      "neutral": {
+        "precision": 0.46444444444444444,
+        "recall": 0.5913978494623656,
+        "f1": 0.5202887727159572,
+        "support": 1767,
+        "true_positive": 1045,
+        "false_positive": 1205,
+        "false_negative": 722
+      }
+    }
+  },
+  "experimental_test_metrics": {
+    "threshold": 0.29,
+    "samples": 5399,
+    "exact_match_accuracy": 0.4058158918318207,
+    "hamming_loss": 0.13322572963247162,
+    "micro_precision": 0.5585077092511013,
+    "micro_recall": 0.6893797790994053,
+    "micro_f1": 0.6170811468552742,
+    "macro_precision": 0.5027919691844815,
+    "macro_recall": 0.5899752036203105,
+    "macro_f1": 0.5405405155491766,
+    "weighted_f1": 0.6147615132679065,
+    "per_class": {
+      "anger": {
+        "precision": 0.4409722222222222,
+        "recall": 0.543509272467903,
+        "f1": 0.48690095846645365,
+        "support": 701,
+        "true_positive": 381,
+        "false_positive": 483,
+        "false_negative": 320
+      },
+      "disgust": {
+        "precision": 0.44144144144144143,
+        "recall": 0.47572815533980584,
+        "f1": 0.45794392523364486,
+        "support": 103,
+        "true_positive": 49,
+        "false_positive": 62,
+        "false_negative": 54
+      },
+      "fear": {
+        "precision": 0.4745762711864407,
+        "recall": 0.6086956521739131,
+        "f1": 0.5333333333333333,
+        "support": 92,
+        "true_positive": 56,
+        "false_positive": 62,
+        "false_negative": 36
+      },
+      "joy": {
+        "precision": 0.6742220514790627,
+        "recall": 0.8121240166589542,
+        "f1": 0.7367758186397985,
+        "support": 2161,
+        "true_positive": 1755,
+        "false_positive": 848,
+        "false_negative": 406
+      },
+      "sadness": {
+        "precision": 0.4823232323232323,
+        "recall": 0.47277227722772275,
+        "f1": 0.4775,
+        "support": 404,
+        "true_positive": 191,
+        "false_positive": 205,
+        "false_negative": 213
+      },
+      "surprise": {
+        "precision": 0.48746081504702193,
+        "recall": 0.4733637747336377,
+        "f1": 0.4803088803088803,
+        "support": 657,
+        "true_positive": 311,
+        "false_positive": 327,
+        "false_negative": 346
+      },
+      "neutral": {
+        "precision": 0.5185477505919495,
+        "recall": 0.7436332767402377,
+        "f1": 0.6110206928621251,
+        "support": 1767,
+        "true_positive": 1314,
+        "false_positive": 1220,
+        "false_negative": 453
+      }
+    }
+  },
+  "differences": {
+    "macro_f1": 0.11211410564135155,
+    "micro_f1": 0.14390156665314924,
+    "weighted_f1": 0.12399176741686518,
+    "exact_match_accuracy": 0.007038340433413615
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "train": {
+    "expected_rows": 43196,
+    "labels_present": {
+      "anger": 5607,
+      "disgust": 811,
+      "fear": 738,
+      "joy": 17235,
+      "sadness": 3210,
+      "surprise": 5353,
+      "neutral": 14194
+    }
+  },
+  "validation": {
+    "expected_rows": 5399,
+    "labels_present": {
+      "anger": 701,
+      "disgust": 96,
+      "fear": 95,
+      "joy": 2169,
+      "sadness": 407,
+      "surprise": 640,
+      "neutral": 1757
+    },
+    "rows": 5399,
+    "columns": [
+      "id",
+      "text_sha256",
+      "anger",
+      "disgust",
+      "fear",
+      "joy",
+      "sadness",
+      "surprise",
+      "neutral"
+    ],
+    "ids_aligned": true,
+    "hashes_aligned": true
+  },
+  "test": {
+    "expected_rows": 5399,
+    "labels_present": {
+      "anger": 701,
+      "disgust": 103,
+      "fear": 92,
+      "joy": 2161,
+      "sadness": 404,
+      "surprise": 657,
+      "neutral": 1767
+    },
+    "rows": 5399,
+    "columns": [
+      "id",
+      "text_sha256",
+      "anger",
+      "disgust",
+      "fear",
+      "joy",
+      "sadness",
+      "surprise",
+      "neutral"
+    ],
+    "ids_aligned": true,
+    "hashes_aligned": true
+  },
+  "overlap": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "checkpoint_files": [
+    "reports\\experiment_3\\best_model\\config.json",
+    "reports\\experiment_3\\best_model\\model.safetensors",
+    "reports\\experiment_3\\best_model\\tokenizer.json",
+    "reports\\experiment_3\\best_model\\tokenizer_config.json"
+  ],
+  "training_log_present": true,
+  "reproducibility_conclusion": "saved Model B artifacts are complete and independently aligned"
+}

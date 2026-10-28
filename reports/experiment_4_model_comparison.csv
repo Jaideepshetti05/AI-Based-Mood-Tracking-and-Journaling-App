@@ -1,0 +1,4 @@
+model,status,threshold,macro_f1,micro_f1,weighted_f1,exact_match_accuracy,hamming_loss
+Model A,completed,0.35,0.4284264099,0.4731795802,0.4907697459,0.3987775514,0.1613790914
+Model B,completed,0.29,0.5405405155,0.6170811469,0.6147615133,0.4058158918,0.1332257296
+Model C,not_trained,,,,,,

@@ -1,0 +1,16 @@
+{
+  "status": "infeasible",
+  "model": "j-hartmann/emotion-english-distilroberta-base",
+  "total_parameters": 82123783,
+  "encoder_parameters": 81527808,
+  "classifier_parameters": 595975,
+  "estimated_fp32_model_gib": 0.30593493208289146,
+  "estimated_adam_states_gib": 0.6118698641657829,
+  "estimated_model_gradients_and_adam_gib": 0.9178047962486744,
+  "total_physical_memory_gib": 15.544475555419922,
+  "available_memory_gib": 0.8183975219726562,
+  "free_disk_gib": 87.81177139282227,
+  "cuda_available": false,
+  "reason": "Full fp32 AdamW requires model parameters, gradients, and two optimizer states before activation and dataloader memory. The measured available memory is insufficient for that lower bound.",
+  "alternative": "Use a GPU or a host with substantially more RAM, then run full encoder training with mixed precision, gradient accumulation, checkpoint selection on validation, and the same frozen test."
+}
