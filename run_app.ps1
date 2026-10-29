@@ -14,7 +14,7 @@ if (-not (Test-Path (Join-Path $root "backend\requirements.txt"))) {
 }
 
 $env:MOOD_DATABASE_URL = if ($env:MOOD_DATABASE_URL) { $env:MOOD_DATABASE_URL } else { "sqlite:///./mood_journal.db" }
-$env:MOOD_ENABLE_EMOTION_MODEL = if ($env:MOOD_ENABLE_EMOTION_MODEL) { $env:MOOD_ENABLE_EMOTION_MODEL } else { "false" }
+$env:MOOD_ENABLE_EMOTION_MODEL = if ($env:MOOD_ENABLE_EMOTION_MODEL) { $env:MOOD_ENABLE_EMOTION_MODEL } else { "true" }
 
 Write-Host "Starting Mood Journal at http://${BindHost}:${Port}" -ForegroundColor Cyan
 Write-Host "Database: local SQLite; transformer enabled: $env:MOOD_ENABLE_EMOTION_MODEL"
